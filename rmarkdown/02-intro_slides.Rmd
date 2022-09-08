@@ -21,7 +21,7 @@ knitr::opts_chunk$set(echo = FALSE)
 
 <div style= "position: relative; top: 40px;">
 
-``` {r, echo = F, cache=F, results = 'hide', warning=F, message=F, out.height = "350px", fig.align='center'}
+``` {r, echo = F, cache=F, results = 'hide', warning=F, message=F, out.height = "350px", fig.align='center', eval = F}
 
 library(tidyverse) ; library(sf) ; library(gridExtra)
 

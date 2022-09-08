@@ -1,73 +1,153 @@
 ---
-title: "Introduction to R for criminologists"
-author: "Space Place and Crime working group"
-date: "September 2019"
+title: "NSCR Carpentries workshops"
+date: "5 & 12 October, 2022"
 output:
-  ioslides_presentation
+  ioslides_presentation:
+    css: my_theme.css
+    # smaller: false
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-## About us
+## NSC-R team
 
-- Sam Langton
-- Monsuru Adepeju
-- Mathew Ashby
-- Wouter Steenbeek
-- Christophe Vandeviver
+-   Wim Bernasco
+-   Sam Langton
+-   Asier Moneva
+-   Alex Trinidad
+-   Franziska Yasrebi-de Kom
 
+## The workshop
 
-```{r, out.width = "800px", eval = F} 
-knitr::include_graphics("img/logos.png")
-```
+-   Help participants transform from R novices to R users!
+-   Supported by Data and Software Carpentries
+-   Material is online and open
 
+## Workflow
 
-## Day content: morning
+<br>
 
-**09.30-11.00** 
-  
-- What is R?  
-- RStudio interface  
-- Introducing the _tidyverse_  
-- Importing and handling data  
+<center>
 
-**11.00-11.15**  
-  
-- Coffee break  
+![](img/workflow.png){width="80%"}
 
-**11.15-12.00**
-  
-- Data visualisation  
+</center>
 
-## Day content: afternoon
+<br>
 
-**12.00-13.00**  
-  
-- Lunch  
+<br>
 
-**13.00-15.00** 
-  
-- Spatial data in R
-- Visualising spatial data
-- Basic geometry operations
+Source: R for Data Science
+
+## Workflow
+
+<br>
+
+<center>
+
+![](img/workflow_annotated.png){width="80%"}
+
+</center>
+
+<br>
+
+<br>
+
+Source: R for Data Science
+
+## Work contents
+
+### Day 1 (5 October)
+
+- The basics
+- Packages
+- Import 
+- Explore
+- Tidy
+
+### Day 2 (12 October)
+
+- Transform
+- Join
+- Visualise
+
+## Disclaimer: learning curve
+
+<center>
+
+![](img/learning_curve.png){width="70%"}
+
+</center>
+
+## Workshop ethos
+
+<center>
+
+![](img/arrested_development.gif){width="65%"}
+
+</center>
+
+## Day 1: morning
+
+**09:30-10:00**: Introduction
+
+**10:00-11:00**: The basics
+
+**11:00-11:15**: Coffee
+
+**11:15-12:00**: Exercise: using a script
+
+**12:00-13:00**: Lunch
+
+## Day 1: afternoon
+
+**13:00-14:00**: Import & explore
+
+**14:00-14:45**: Exercise: import & explore
+
+**14:45-15:00**: Coffee
+
+**15:00-16:00**: Tidy
+
+**16:00-16:45**: Exercise: tidy
+
+**16:45-17:00**: Closing
 
 ## Material
 
-All slides and worksheets are available online
+All slides and worksheets are available online:
 
 <center>
-<font color = "blue">
-https://rpubs.com/spaceplacecrime
-</font>
+
+<font color = "blue"> Link to the website/dropbox! </font>
+
 </center>
 
-## Acknowledgements
+## Day 2: morning
 
-Partridge, H., Solymosi, R. & Langton, S.H. (2019, July). Getting Started in R: an introduction to data analysis and visualisation (Version v1.0). Zenodo. http://doi.org/10.5281/zenodo.3349635
+**09:30-10:00**: Introduction
 
-Wickham, H., & Grolemund, G. (2016). R for data science: import, tidy, transform, visualize, and model data. " O'Reilly Media, Inc.".
+**10:00-11:00**: Joining
 
-Lovelace, R., Nowosad, J., & Muenchow, J. (2019). Geocomputation with R. CRC Press.
+**11:00-11:15**: Coffee
+
+**11:15-12:00**: Exercise: joining
+
+**12:00-13:00**: Lunch
+
+## Day 2: afternoon
+
+**13:00-14:00**: Transform
+
+**14:00-14:45**: Exercise: transform
+
+**14:45-15:00**: Coffee
+
+**15:00-16:00**: Visualise
+
+**16:00-16:45**: Exercise: visualise
+
+**16:45-17:00**: Closing
 
