@@ -1,0 +1,163 @@
+---
+title: "NSCR Carpentries workshops"
+date: "5 & 12 October, 2022"
+output:
+  ioslides_presentation:
+    css: my_theme.css
+    # smaller: false
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## NSC-R team
+
+-   Wim Bernasco
+-   Sam Langton
+-   Asier Moneva
+-   Alex Trinidad
+-   Franziska Yasrebi-de Kom
+
+## The workshop
+
+- Help participants transform from R novices to R users!
+- Structured along a typical workflow
+- Supported by [Data and Software Carpentries](https://carpentries.org/)
+- Material is online and open
+
+## Workflow
+
+<br>
+
+<center>
+
+![](img/workflow.png){width="80%"}
+
+</center>
+
+<br>
+
+<br>
+
+Source: [R for Data Science](https://r4ds.had.co.nz/)
+
+## Workflow
+
+<br>
+
+<center>
+
+![](img/workflow_annotated.png){width="80%"}
+
+</center>
+
+<br>
+
+<br>
+
+Source: [R for Data Science](https://r4ds.had.co.nz/)
+
+## Work contents
+
+### Day 1 (5 October)
+
+- The basics
+- Packages
+- Import 
+- Explore
+- Tidy
+
+### Day 2 (12 October)
+
+- Join
+- Transform
+- Visualise
+
+## Disclaimer: learning curve
+
+<center>
+
+![](img/learning_curve.png){width="70%"}
+
+</center>
+
+## Workshop ethos
+
+<center>
+
+![](img/arrested_development.gif){width="65%"}
+
+</center>
+
+## Day 1: morning
+
+**09:30-10:00**: Introduction
+
+**10:00-11:00**: The basics
+
+**11:00-11:15**: Coffee
+
+**11:15-12:00**: Exercise: using a script
+
+**12:00-13:00**: Lunch
+
+## Day 1: afternoon
+
+**13:00-14:00**: Import & explore
+
+**14:00-14:45**: Exercise: import & explore
+
+**14:45-15:00**: Coffee
+
+**15:00-16:00**: Tidy
+
+**16:00-16:45**: Exercise: tidy
+
+**16:45-17:00**: Closing
+
+## Material
+
+All slides and worksheets are available online:
+
+<center>
+
+<font color = "blue"> Link to the website/dropbox! </font>
+
+</center>
+
+## Day 2: morning
+
+**09:30-10:00**: Introduction
+
+**10:00-11:00**: Joining
+
+**11:00-11:15**: Coffee
+
+**11:15-12:00**: Exercise: joining
+
+**12:00-13:00**: Lunch
+
+## Day 2: afternoon
+
+**13:00-14:00**: Transform
+
+**14:00-14:45**: Exercise: transform
+
+**14:45-15:00**: Coffee
+
+**15:00-16:00**: Visualise
+
+**16:00-16:45**: Exercise: visualise
+
+**16:45-17:00**: Closing
+
+## Closing
+
+<center>
+
+![](img/simpsons.gif){width="70%"}
+
+</center>

@@ -6,17 +6,13 @@ library(rmarkdown)
 
 # Render and save in the worksheets folder.
 
-render(input       = "rmarkdown/01-welcome_slides.Rmd", 
+render(input       = "rmarkdown/slides.Rmd", 
        output_dir  = "worksheets",
-       output_file = "welcome_slides.html")
+       output_file = "slides.html")
 
-render(input       = "rmarkdown/02-intro_slides.Rmd", 
+render(input       = "rmarkdown/day1_morning.Rmd",
        output_dir  = "worksheets",
-       output_file = "intro_slides.html")
-
-render(input       = "rmarkdown/03-morning_worksheet.Rmd", 
-       output_dir  = "worksheets",
-       output_file = "morning_worksheet.html")
+       output_file = "day1_morning.html")
 
 
 
