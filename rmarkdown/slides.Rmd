@@ -68,12 +68,12 @@ Source: [R for Data Science](https://r4ds.had.co.nz/)
 - Packages
 - Import 
 - Explore
-- Tidy
+- Transform
 
 ### Day 2 (12 October)
 
+- Tidy
 - Join
-- Transform
 - Visualise
 
 ## Disclaimer: learning curve

@@ -10,18 +10,22 @@ editor_options:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, eval = F)
+knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ## Preamble
 
 This page contains material for _NSCR Carpentries_, a two-day workshop hosted by the [NSCR](https://nscr.nl/) with support from [Data and Software Carpentries](https://carpentries.org/) on 5 and 12 October, 2022.
 
-## Introducing R and RStudio
+## Getting started
 
-R is a programming language and open source software environment. Although it is widely described as a 'software for statistics', R can be used for a variety of other tasks, such as text analysis, web scraping, mapping and spatial analysis, web dashboards and document preparation. Even this worksheet was created in R -- so is the NSC-R team's [website](https://nscrweb.netlify.app/).
+### Introducing R and RStudio
 
-In reality, many of us will spend most of our time on importing, tidying, transforming and visualising our data. This is the infamous '80:20' rule but for R. So, this is what we focus on. Getting these basics nailed early on will drastically improve the efficiency of many research tasks through automation, and open up a variety of new tools that are not available in more 'traditional' software like Excel. Perhaps even more importantly, it will also make your research transparent and reproducible (both for yourself, and others).
+R is a programming language and open source software environment. Although it is widely described as a statistics programme, R can be used for a variety of other tasks, such as text analysis, web scraping, mapping and spatial analysis, web dashboards and document preparation. Even this worksheet was created in R -- so is the NSC-R team's [website](https://nscrweb.netlify.app/).
+
+In reality, many of us will spend most of our time on importing, tidying, transforming and visualising our data. This is like the infamous '80:20' rule. 80% of your time will be spent on wrangling with the data, 20% will be spent on actually running fancy statistical models. You might get the answers you want without even running any fancy statistics!
+
+So, this is what we focus on: wrangling and visualisation. Getting these basics nailed early on will drastically improve the efficiency of many research tasks through automation, and open up a variety of new tools that are not available in more 'traditional' software like Excel. Perhaps even more importantly, it will also make your research transparent and reproducible (both for yourself, and others).W
 
 Although R is available as a stand-alone piece of software, it is most commonly used through a user-friendly interface _RStudio_. We recommend that you first [download R](https://cran.r-project.org/bin/windows/base/) and then [download RStudio](https://www.rstudio.com/products/rstudio/download/). All the examples in this workshop will be done in _RStudio_. We'll cover (or have covered) the basics of the _RStudio_ interface during live demonstrations, but as a reminder, there are four main windows: the script editor, console, global environment and help/plots.
 
@@ -40,7 +44,7 @@ Although R is available as a stand-alone piece of software, it is most commonly 
 
 <br>
 
-## Starting a project
+### Starting a project
 
 A lot of things in RStudio are easier if you work inside what's called a project. Projects let you keep all your R code for a particular piece of work self-contained, and mean you can switch between projects while keeping all the tabs in RStudio just as you left them. Projects also make it easier to collaborate with other people, because irrespective of what computer you are working on, you will all be working within the same folder structure. It's a good idea to always work inside a project if you are using RStudio.
 
@@ -58,7 +62,7 @@ Luckily for you, assuming you have downloaded all the workshop material, you wil
 
 For future reference, and your own work going forward, you can set up an R project yourself with just a few clicks. We recommend [this brief tutorial](https://bookdown.org/daniel_dauber_io/r4np_book/starting-your-r-projects.html). But, there's no need to do this now, unless you really want to!
 
-## Objects and functions
+### Objects and functions
 
 Code in R tends to be made up of two parts: functions and objects. Functions do things to whatever you input. This might be as simple as calculating the mean of a list of numbers. An object is anything that you create, and can take any form. A common example might be a data frame, but objects can also be things like a list of words, a single number, or a graphic. You can create an object by using the assign operator `<-`. Anything on the left hand side of `<-` will be the object that you are creating, and anything to the right is going to define what that object is, often through the use of a function. [Andy Field](https://uk.sagepub.com/en-gb/eur/discovering-statistics-using-r/book236067) summarises this as `object <- function`. You can read this as 'object is created from function'. You can call objects whatever you want, but it's good practice to give them meaningful names.
 
@@ -102,7 +106,7 @@ rm(mean_my_numbers)
 
 If you want to know more about a function, you can type `?` before the function name and then run the code. For example running `?mean` will bring up the help page for the function `mean` in the help/plot window in the bottom right of your interface.
 
-### Note on types and classes
+### Types and classes
 
 So far, we've been creating what are termed [vectors](http://adv-r.had.co.nz/Data-structures.html). Vectors are the most basic structure of data in R, and are simply just a collection of things which are the same type. You can check what type a vector is using the function `typeof()`, or the (more broad) class with `class()`. There are a few different types and classes of vector in R, and we recommend that you read this [article about object types](https://swcarpentry.github.io/r-novice-inflammation/13-supp-data-structures/) to understand them more.
 
@@ -117,11 +121,19 @@ example_df
 
 We don't dwell too much on this here, but for now, it's important to be aware that the type of vector you are dealing with will dictate what you can do with it. It's the reason why we can calculate the mean of `my_numbers` or `var2` but not `city` or `var3`, for instance. Whilst this might seem obvious, it's worthwhile being aware of these different types and classes. You can complete the exercises today without looking at the reading links above, but we recommend you return to it later on.
 
-## Installing packages
+### Installing packages
 
 R comes with a huge amount of built-in functionality. You can load, manipulate, analyse and visualise data simply with the tools you have already upon download. In the above example, we used the function `mean()`. This is an example of a function which is available to use as standard in R. That said, the real power and versatility of R comes with additional _packages_ which you can install (for free) from within the software. There are thousands of R packages out there, but there is a specific group of packages which have been designed around a common philosophy, and can be used in conjunction with one another. Collectively these are referred to as the `tidyverse`. You can read more about the tidyverse in the (legitimately) free book [R for Data Science](https://r4ds.had.co.nz/), which covers the fundamentals of data science in R.
 
-![Packages within the tidyverse](img/tidyverse.png){width="100%"}
+<br>
+
+<center>
+
+![Packages within the tidyverse.](img/tidyverse.png){width="100%"}
+
+</center>
+
+<br>
 
 To install the tidyverse in R, you can run the following code. Once installed, you tend not to have to reinstall packages, so this is a rare occasion when you can simply type or copy and paste the code into the console and hit `Enter`, rather than typing it into the script editor. Because the tidyverse is quite extensive, containing a number of packages, the install may take a few minutes.
 
@@ -129,20 +141,17 @@ To install the tidyverse in R, you can run the following code. Once installed, y
 install.packages('tidyverse')
 ```
 
-A summary of what has been installed will appear in the console. Warnings in red are not always bad, and we will cover them more in the live demonstration. You now have the tidyverse installed!
+A summary of what has been installed will appear in the console. Warnings in red are not always bad, and we will cover them more in the live demonstration. You now have the tidyverse installed! 
 
-Usually you'll download packages because they contain useful functions which allow you to do something, like analyse or visualise data, but packages often also contain data. You'll have got a few with the tidyverse, but they are not crime specific. Lucky for you, [Matt Ashby](http://lesscrime.info/) has released a package called `crimedata` which contains lots of open data about police recorded crime from a number of large cities in the United States. We will use this later, so whilst we're here, install this package by editing the `install.packages()` code above.
+### Loading packages
 
-## Loading packages
-
-Installing packages is a one-time thing, but each time you open a new session in R, you need to load the packages you want to use. You can do this by ticking the box of whichever one you want to load in the _packages_ tab of the help/plots window. However, it is good practice to load packages using code. You can do this using the `library()` function. Copy the following to load the tidyverse, then do the same for the `crimedata` package. Like this:
+Installing packages is a one-time thing, but each time you open a new session in R, you need to load the packages you want to use. You can do this by ticking the box of whichever one you want to load in the _packages_ tab of the help/plots window. However, it is good practice to load packages using code. You can do this using the `library()` function. Copy the following to load the tidyverse.
 
 ```{r, warning=F, message=F, results=F}
 library(tidyverse)
-library(crimedata)
 ```
 
-## Loading in data
+## Importing data
 
 Most of the time, you are going to be loading in your own data. This might be stored in a variety of formats, such as .dta or .sav depending on what software you are currently using, or you might have geographic data (for example .shp files). The chances are that R can load them, it just might require a different function.
 
@@ -166,7 +175,7 @@ Once you've downloaded the file, load it in the same way using `read_csv()` but 
 stops <- read_csv(file = "data/stops_data.csv")
 ```
 
-## Basic exploration
+## Explore
 
 Once you've loaded data into R (whichever way you've done it above), there's a few useful functions you can use to explore it a bit. Try each of these one at time and review the outcome. You'll notice that we've added comments after each line of code below as a brief explanation. Anything you write after a `#` is treated as a comment and is ignored by R when running chunks of code. It's useful to add comments as you go when writing code, explaining what you are doing and why. You will thank yourself for doing this when returning to code you wrote months earlier.
 
@@ -178,6 +187,7 @@ sum(is.na(stops))   # Count missings in the data frame
 nrow(stops)         # Number of rows
 ncol(stops)         # Number of columns
 summary(stops)      # Basic descriptives of each variable
+glimpse(stops)      # Summary of each variable (e.g., classes, values)
 ```
 
 We'll be making use of the `$` sign to generate descriptives about specific vectors (variables) within a data frame. To refer to a specific variable, you need to state the data frame object and then the variable name using this `$` symbol. So, to count the number of missing for a specific variable `age` in `stops` you would run:
@@ -186,21 +196,23 @@ We'll be making use of the `$` sign to generate descriptives about specific vect
 sum(is.na(stops$age)) # There are 136 missings in the age variable
 ```
 
-Or to print a basic cross-tabulation by two variables:
+Or to print a basic frequency table:
 
 ```{r, eval = F}
-table(stops$age, stops$type)
+table(stops$age)
 ```
 
 As we'll see, one of the benefits of using the tidyverse is that you often don't need to use `$`, which can look quite messy, but it's definitely worth knowing. For instance, we could replicate the frequency count above using `count()` which is part of the `dplyr` package in the `tidyverse`.
 
 ```{r, eval = F}
-count(stops, age, type)
+count(stops, age)
 ```
 
-## Data wrangling
+## Transform
 
-So far, we haven't really made much use of the tidyverse, but the some of the most useful functions are coming up. They are often termed 'verbs' because the function name corresponds more or less to what it's _doing_ to the object. We are going to cover some of the most common:
+So far, we haven't really made much use of the tidyverse, but the some of the most useful functions are coming up. They are often termed 'verbs' because the function name corresponds more or less to what it's _doing_ to the object. Here, we focus on verbs that [transform](https://rstudio-education.github.io/tidyverse-cookbook/transform-tables.html) data: things like filtering, selecting columns and renaming variables. You will notice that we are covering **transform** before **tidy**. The precise ordering of your own workflow might differ, but one way or another, these transform functions will be super useful early on in own work.
+
+We are going to cover some of the most common:
 
 - `filter()` to choose rows in a data frame by one or more conditions
 - `select()` to choose columns by name
@@ -209,7 +221,10 @@ So far, we haven't really made much use of the tidyverse, but the some of the mo
 - `rename()` to rename variables
 - `mutate()` to create new variables
 - `recode()` to recode variables
-- `if_else()` to test conditions
+- `group_by()` to perform operations on groups
+- `summarise()` create summary data frames
+
+Along the way, we will also cover something called a pipe (coded as `%>%`). The pipe will help us link all these helpful verb functions together, ensuring we write code which is easily written, read and understood!
 
 ### Filter
 
@@ -323,179 +338,60 @@ stops_piped <- stops %>%
   drop_na()
 ```
 
-So there we have it: a basic introduction to verbs in the tidyverse. This is not an exhaustive list of the functions available to wrangle data. There are plenty more, all of which are compatible with piping to make your code clear and efficient. But, these will get you started.
+## Grouping & summarise
 
-## Visualisation
+Now we have covered pipes, let's finish this section with a look at two super-useful functions: `group_by()` and `summarise()`. These are also **transform** like those we covered earlier, but they are best use in conjunction with the pipe `%>%`.
 
-### Step-by-step
+To demonstrate these functions, we want to make use of a new package. Usually you'll download packages because they contain useful functions which allow you to do something, like analyse or visualise data (e..g, `tidyverse`), but packages often also contain data. You'll have got a few with the tidyverse, but they are not crime specific. Lucky for you, [Matt Ashby](http://lesscrime.info/) has released a package called `crimedata` which contains lots of open data about police recorded crime from a number of large cities in the United States.  Install this package by editing the `install.packages()` code above for the `crimedata` package and then loading it using `library()`.
 
-There is more to visualisation than pretty graphs: they are an integral part of your workflow and form a fundamental part of [how the tidyverse is designed](https://www.r-bloggers.com/what-is-the-tidyverse/). Visualisations can be a quick way to get a feel for your data before delving into statistical modeling, but they can also be a powerful way to make your findings accessible and more easily interpretable for other researchers or the public.
-
-Arguably the most powerful and popular package within the tidyverse is `ggplot2`. This package is based on a tool called the [grammar of graphics](https://vita.had.co.nz/papers/layered-grammar.html) which provides a framework for creating visualisations that move beyond the typical way of thinking about graphics. A fundamental component of this is the idea that graphics are made up for _layers_. Three of the most important layers in visualisations are the data, the aesthetics and the geometries ('geoms').
-
-```{r, echo = F}
-knitr::include_graphics("https://www.science-craft.com/wp-content/uploads/2014/06/ggplot-1.png")
-```
-
-- **Data** The first layer is the data itself, which would typically be a data frame with rows and columns, just like we've been dealing with so far.  
-- **Aesthetics** These describe the visual characteristics that represent the data you are interested in, such as colour, size and shape.
-- **Geoms** These describe the objects that represent the data, such as points or lines.
-
-When you are creating graphs using `ggplot2` you can build the graph up using these layers. It is a different way of thinking about graphs compared to, say, using a template for a plot in Excel, but over time it will be intuitive and allow you to make high quality visuals quite quickly. The concept is demonstrated in R using the example below.
-
-### Banning orders
-
-Let's take a look at an example using some data on [football banning orders](https://www.inbrief.co.uk/football-law/football-banning-orders/) for some football clubs in England. As previously, we will download a copy of the data using `download.file()` and then load that copy into R using `read_csv()`, so we have a copy if the original ever disappears from the internet.
-
-```{r, warning = F, message = F}
-download.file(url = "https://raw.githubusercontent.com/langtonhugh/ESC2019_materials/master/banning_orders.csv",
-              destfile = "original_data/bans-data.csv")
-
-bans <- read.csv(file = "original_data/bans-data.csv")
-
-bans <- bans %>%
-  janitor::clean_names()
-
-```
-
-We are going to build a basic graphic up from scratch using the three layers: data, aesthetics and geometries. Our aim is to examine the distribution of banning orders by different English leagues. This will involve the variable `Banning Orders` and the variable `League of the Club Supported`. A common way to examine distributions is a boxplot, so that's what we are going to do.
-
-Code for plotting using `ggplot2` is actually written in the order in which these layers are made, building from the main function `ggplot`. We can begin by just plotting the first layer: the data.
-
-```{r}
-ggplot(data = bans)
-```
-
-As you can see, nothing happens apart from the plot window has gone grey. Okay, it is the first layer of our graphic, but we need to add the aesthetic layer. We do this using the `mapping` argument. Aesthetics define the axis of your graph. Since we are interested in how banning orders vary by league, these two variables will be our axis. Note the use of the back ticks again because our variable names have spaces.
-
-```{r}
-ggplot(data = bans,
-       mapping = aes(x = league_of_the_club_supported, y = banning_orders))
-```
-
-We've now plotted the data and aesthetics. You'll see in the plot window that we now have the basic layout of the graph. The last fundamental component are the geoms. In this case, it is a boxplot, so we are going to add the geoms using the `geom_boxplot` function. There many, many different types of geoms which we can explore later. Note the use of the `+` symbol when we add another layer. This behaves very similarly to the ` %>% ` mentioned earlier. We will cover this more in the live demonstration, and later in the exercises.
-
-```{r}
-ggplot(
-  # Specify the data
-  data = bans,
-  # Specify the aesthetics to represent the data
-  mapping = aes(x = league_of_the_club_supported, y = banning_orders)) +
-  # Specify the geometry to display the aesthetics
-  geom_boxplot()
-```
-
-There we have it: the distribution of banning orders by league!
-
-It's worth being aware that ggplot code can be constructed differently, depending on what you are doing, or what you think makes your code clearer. We can write `geom_boxplot()` with no information inside the brackets because we have already specified the aesthetics. If you do this (i.e. specify the aesthetics first within the `ggplot` function) then any subsequent geoms will have that same mapping. Sometimes, this might conflict with what you are doing, so it's worth remembering that you could create the above plot using the following.
-
-```{r, eval = F}
-ggplot(data = bans) +
-  geom_boxplot(mapping = aes(x = league_of_the_club_supported, y = banning_orders))
-```
-
-Some examples you'll see online might be structured like this. It can be more flexible when you want to specify geoms with different aesthetics in the same plot. Use whichever one is comfortable and works for you.
-
-### US crime data
-
-A quick demonstration using the data from the `crimedata` package shows us how we can map additional variables onto our visuals using aesthetics beyond the classic x and y. First, check you have installed and loaded the package, as outlined earlier in this exercise.
-
-You can load in some open crime data using the `get_crime_data()` function from the package. Let's just get the core data for 2017 for all the cities available. This might take a few moments on download.
+We can now easily access some US crime data using the function `get_crime_data()`. Let's just choose the core datasets from the year 2017. We assign the data to the object `crimes`.
 
 ```{r, warning = F, message = F, results=F}
 crimes <- get_crime_data(years = 2017, type = "core")
 ```
 
-Take a look at the data using `View(crimes)` or use some of the basic exploratory functions we introduced at the beginning to get used to what the data looks like. You'll notice that each row is a recorded crime, with associated information like the city in which the crime occurred, the offence type, and the census block in which the crime occurred. From this, we know the data is nested: crimes within census blocks, census blocks within cities.
-
-First, let's just subset the data by a crime type (disorderly conduct), and drop cases that are missing if we don't know the location category, as we are going to use it later. We assign this new data frame to the object `dis_con`.
+We can practice some of our skills earlier to explore the data. You will notice that each row is an offence For each offence, we information like the type of offence, the city and the census block in which it occurred. For now, let's just subset the data to only include disorderly conduct offences.
 
 ```{r}
-dis_con <- crimes %>% 
-  filter(offense_type == "disorderly conduct") %>% 
-  drop_na(location_category)
+disorder <- crimes %>% 
+   filter(offense_type == "disorderly conduct")
 ```
 
-We can now make a quick bar chart of crime counts for each city. Note how we don't actually need to calculate these counts ourselves: if you don't specify a y-axis variable in a bar plot, ggplot will just assume you want counts, which is a pretty common use for bar charts. We introduce some new options here: `coord_flip()` rotates the chart, `labs` allows you to change various different label names, and `theme_bw()` adds a pre-set [ggplot theme](http://www.sthda.com/english/wiki/ggplot2-themes-and-background-colors-the-3-elements) to the graph.
+You will notice that there is a variable called `city_name` which tells us the city in which the crime occurred. Because each row is a crime, city names are repeated across rows, because each city had multiple offences during 2017. In this way, you can think of the data as 'grouped' because individual offences are nested with cities. 
+
+A typical research question when looking at this data might be **How many crimes occurred in each city?**. There are a few ways we can answer this question, but the most versatile is `group_by()`. This function allows us to perform operations (i.e., use functions, do stuff) on groups in our data. Once we group the data using `group_by()`, any subsequent functions will be applied to the group, rather than individual rows. So, to count the number of crimes (i.e., rows) nested within each city, we first group the data, then pipe the grouped data through to `summarise()`, in which we create a new variable called `count` which is simply the number (`n`) of rows.
 
 ```{r}
-ggplot(data = dis_con, mapping = aes(x = city_name)) + # set data and aesthetics
-  geom_bar() +                                         # set geom
-  labs(x = NULL,                                       # remove x-axis label
-       y = "count of crimes",                          # optional labels
-       title = "Counts of disorderly conduct",
-       subtitle = "United States, January to December 2017",
-       caption = "Source: Crime Open Database") +
-  coord_flip() +                                       # flip the plot
-  theme_bw()                                           # add a new theme
+city_counts <- disorder %>% 
+  group_by(city_name) %>% 
+  summarise(counts = n()) 
+
+city_counts # print the data frame to the Console
 ```
 
-Let's say we want to see how the location of disorderly conduct incidents varies by city. We can map the `location_category` variable (which now has no missings) using the `fill` aesthetic. Note the minor changes to the labels.
+You will notice that `summarise()` create a new data frame at whatever level we have specified in `group_by()`. This is subtly (but considerably) different from `mutate()` which adds a new variable to your existing data frame. Sometimes, using `mutate()` after `group_by()` does actually make sense, but what do you think would happen? Try running the above code using `mutate()` and observe what happens.
+
+One of the powerful things about `group_by()` is that you can input multiple groups. Say we were interested in offence counts in each city, but also by the census blocks nested within each city. Then we could try something like this:
 
 ```{r}
-ggplot(data = dis_con, mapping = aes(x = city_name, fill = location_category)) +
-  geom_bar() +
-  labs(x = NULL,
-       y = "count of crimes",
-       title = "Counts of disorderly conduct",
-       subtitle = "United States, January to December 2017",
-       caption = "Source: Crime Open Database",
-       fill = "Location category") +  # new label for the fill aesthetic
-  coord_flip() +
-  theme_bw()
+city_block_counts <- disorder %>% 
+  group_by(city_name, census_block) %>% 
+  summarise(counts = n()) 
+
+city_block_counts # print the data frame to the Console
 ```
 
-For the final example, we are going to combine it with a bit data wrangling. This introduces some new verbs: `group_by()` groups observations by whatever variables are specified. Any subsequent functions are performed on the groups rather than each observation. `tally` is just a way of summing the number of observations, in this case, by group. By way of example, the following will print out the number of observations (i.e. in this case, crimes) by each city.
-
-```{r}
-crimes %>%
-  group_by(city_name) %>%
-  tally(name = "crime_counts") # We specify the name of the new variable too.
-```
-
-For the next visualisation, however, we want to sum the number of crimes by census block for each city. So, we have to group by two variables, otherwise we lose the information about which census block is in which city. We also filter out outliers, which we've just decided are any counts greater than 20. This is arbitrary and just for the purposes of the demonstration!
-
-```{r}
-block_counts <- crimes %>% 
-  group_by(city_name, census_block) %>% # Group by city and census block
-  tally(name = "crime_counts") %>%      # Counts (by city and census block)
-  filter(crime_counts <= 20)            # Exclude counts greater than 20
-```
-
-Take a look at the data now with `View(block_counts)`. We now have a count of the number of crimes for each census block by city.
-
-We can now plot these data to show how concentrated crime is in each city. Here, we make a density plot, but split the plot into [small multiples](https://www.dshkol.com/2017/small-multiples-with-maps/) by city using the `facet_wrap()` function. You'll also notice that we also specify the fill as black, but not as an aesthetic. Aesthetics are mapped to variables! Here, we are not mapping `fill` to a variable, just stating that it should be black.
-
-```{r}
-ggplot(data = block_counts, mapping = aes(x = crime_counts)) +
-  geom_density(fill = "black") +
-  facet_wrap(~ city_name) +
-  theme(legend.position = "none")  # remove the legend, since it only has one value
-```
-
-The possibilities are nearly endless with ggplot2 but we've introduced you to a few of the key concepts. The best way to get proficient at visualising using ggplot is to practice, ideally with your own data. Sketch out what you want to achieve, thinking about what structure the data will have to be in to achieve what you want, and which aesthetics are going to be meaningful to get your message across.
-
-## Saving data frames
-
-Just as R is capable of importing numerous different types of data (e.g. .csv, .dta, .sav amongst others), it can also save data in many formats. We will demonstrate how to save the `block_counts` data frame object, used above, as a .csv file using `write_csv()`. We'll need to specify the data frame object we want to save, and the directory where we want to save the file, with the file name at the end. As with reading data, data you save will be saved within your project directory.
-
-```{r, echo = T}
-write_csv(block_counts, path = "output_data/block_counts.csv")
-```
+So far, we have been using `n()` to count the number of rows in each unique group. But, there are plenty of other things you can do. For instance, you can also calculate the mean counts
 
 
-## Saving visuals
 
-So far, when we've created a graphic, we haven't been assigning it to an object, so everything has just appeared in the plot window. If we want to save a graphic, we need to assign it to an object, and then use the `ggsave()` function. We've chosen a .jpeg but there many [other options](https://ggplot2.tidyverse.org/reference/ggsave.html). You can use the example below as a template.
 
-```{r, eval = F}
-p1 <- ggplot(data = block_counts, mapping = aes(x = crime_counts)) +
-        geom_density(fill = "black") +
-        facet_wrap(~ city_name) +
-        theme(legend.position = "none")
 
-ggsave(filename = "output_files/my_plot.jpeg", plot = p1, device = "jpeg")
-```
+
+
+
+
+So there we have it: a basic introduction to verbs in the tidyverse. This is not an exhaustive list of the functions available to wrangle data. There are plenty more, all of which are compatible with piping to make your code clear and efficient. But, these will get you started.
 
 ## Useful resources
 
@@ -503,4 +399,3 @@ ggsave(filename = "output_files/my_plot.jpeg", plot = p1, device = "jpeg")
 2. **Google** This is probably your best resource! Queries will often take you to great websites like Stack Overflow, where in 99% of cases, someone has asked exactly the same question you have! To get an answer that uses the tidyverse, follow every Google search with the word 'tidyverse' or the specific package within the tidyverse (e.g. ggplot2) if you know which one it is.   
 3. **Twitter** To broaden your knowledge of R more generally, or to keep up-to-date with the latest developments, Twitter is a great resource. There are few key people, such as [Hadley Wickham](https://twitter.com/hadleywickham?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor), [Mara Averick](https://twitter.com/dataandme?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor), [Julia Silge](https://twitter.com/juliasilge?lang=en) and [Thomas Lin Pederson](https://twitter.com/thomasp85?lang=en), who are definitely worth following, but there are many others who you will come across. The hashtag [#rstats](https://twitter.com/search?q=%23rstats) also showcases great graphics and other work people have done with R.
 
-<!-- ## Acknowledgements -->
