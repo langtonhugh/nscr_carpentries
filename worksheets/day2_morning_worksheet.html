@@ -407,11 +407,11 @@ together. For example, if you wanted to examine the relationship between
 police-recorded crime and neighbourhood deprivation, you would probably
 need to collate data from two sources: the police, and the census
 bureau, and then join the two datasets together by some common variable,
-such as a neighbourhood name or id code.</p>
-<p>Here, we cover two ways of joining datasets together. The first is
-<strong>binding</strong> which simply ‘sticks’ to datasets together. The
-second is <strong>joining</strong> which performs a merge based one or
-more variables which are common between the datasets.</p>
+such as a neighbourhood name or id code. Here, we cover two ways of
+joining datasets together. The first is <strong>binding</strong> which
+simply ‘sticks’ to datasets together. The second is
+<strong>joining</strong> which performs a merge based on one or more
+variables which are common between the datasets.</p>
 <div id="binding" class="section level3">
 <h3>Binding</h3>
 <p>One of the crudest (but often perfectly acceptable) ways of sticking
@@ -443,19 +443,21 @@ crimes_2017 &lt;- get_crime_data(years = 2017, type = &quot;sample&quot;)</code>
 <p>But what if we wanted to compare the two years? This would be most
 straightforward within the same dataframe. Because the two dataframes
 have exactly the same columns, we can use <code>bind_rows()</code> to
-stick them together top-to-bottom. Note that we specify as id variable
+stick them together top-to-bottom. Note that we specify an id variable
 to distinguish the two original dataframes. We might even want to do
 this beforehand using <code>mutate()</code> (e.g.,
 <code>mutate(year = &quot;2017)</code>).</p>
 <pre class="r"><code>crimes_binded &lt;- bind_rows(crimes_2016, crimes_2017, .id = &quot;year&quot;)</code></pre>
+<p>Now we can easily use things like <code>group_by()</code> to compare
+the two years. If you want the real counts, rather than the samples, you
+can download the “core” data type within
+<code>get_crime_data()</code>.</p>
+<pre class="r"><code>yearly_counts &lt;- crimes_binded %&gt;% 
+  group_by(year, city_name) %&gt;% 
+  summarise(count = n())</code></pre>
 <p>Note that <strong>this only works because the two dataframes have
-identical columns</strong>. If we change the names of columns, unusual
-things might happen. Run the following code and observe what happens.
-There is no error or warning!</p>
-<pre class="r"><code>crimes_2016_renamed &lt;- crimes_2016 %&gt;% 
-  rename(name_of_city = city_name)
-
-crimes_binded_renamed &lt;- bind_rows(crimes_2016_renamed, crimes_2017, .id = &quot;year&quot;)</code></pre>
+identical columns</strong>. So, be sure to check these things before
+conducting a row bind, otherwise you might get an unexpected result.</p>
 </div>
 <div id="column-bind" class="section level4">
 <h4>Column bind</h4>
@@ -463,9 +465,7 @@ crimes_binded_renamed &lt;- bind_rows(crimes_2016_renamed, crimes_2017, .id = &q
 sticks dataframes together side-by-side. For that reason, you have to be
 <strong>super careful</strong> that the ordering of rows is appropriate
 before conducting a column bind. Let’s create two dataframes of
-city-level counts for each year. If you the real counts, rather than the
-samples, you can download the “core” data type within
-<code>get_crime_data()</code>.</p>
+city-level counts for each year.</p>
 <pre class="r"><code>city_counts_2016 &lt;- crimes_2016 %&gt;% 
   group_by(city_name) %&gt;% 
   summarise(counts2016 = n())
@@ -480,30 +480,34 @@ aside from the automatic renaming of common variables. You can then
 easily compare the counts across years, or calculate the difference
 between the two.</p>
 <pre class="r"><code>city_counts_2016_2017 &lt;- bind_cols(city_counts_2016, city_counts_2017) </code></pre>
-<pre><code>## New names:
-## * `city_name` -&gt; `city_name...1`
-## * `city_name` -&gt; `city_name...3`</code></pre>
 <p>But what happens if the order is different? We can simulate this by
 shuffling the order of one data frame, and then re-doing the bind. We do
-this by taking a sample without replacement.</p>
-<pre class="r"><code>city_counts_2016_shuffle &lt;- city_counts_2016 %&gt;% 
+this by taking a sample without replacement. You will notice that we
+first <code>set.seed()</code> – this ensures our sampling is
+reproducible. You can read more about that <a href="https://stackoverflow.com/questions/13605271/reasons-for-using-the-set-seed-function">here</a>.</p>
+<pre class="r"><code>set.seed(1612)
+
+city_counts_2016_shuffle &lt;- city_counts_2016 %&gt;% 
   sample_n(size = nrow(city_counts_2016), replace = FALSE)
 
 city_counts_2016_2017_shuffle &lt;- bind_cols(city_counts_2016_shuffle, city_counts_2017) </code></pre>
-<pre><code>## New names:
-## * `city_name` -&gt; `city_name...1`
-## * `city_name` -&gt; `city_name...3`</code></pre>
 <p>Now take a look at the result. It’s wrong, right? If we had done this
 blindly, without checks, we could have made a pretty big mistake. So,
 while <code>bind_cols()</code> can be useful, always ensure that the
 ordering is correct before conducting such a bind, and be sure to check
 everything afterwards.</p>
-<p>For a more reliable way of merging datasets, we would recommend
-<strong>joining</strong>.</p>
 </div>
 </div>
 <div id="joining-1" class="section level3">
 <h3>Joining</h3>
+<p>Probably the most powerful way of merging dataframes together is by
+using a <strong>join</strong> function. These functions will match rows
+based on one or more common id (or ‘key’) variables. There are a number
+of different joins available within the <code>tidyverse</code>. While
+each are fundamentally the same, each one will treat non-matches
+differently. The four options available are <code>left_join()</code>,
+<code>right_join()</code>, <code>inner_join()</code> and
+<code>full_join()</code>. These are best summarised visually.</p>
 <p><br></p>
 <center>
 <div class="figure">
@@ -512,6 +516,120 @@ everything afterwards.</p>
 </div>
 </center>
 <p><br></p>
+<p>Let’s demonstrate a join by re-trying our city-wide counts comparison
+between 2016 and 2017. To show the difference to a bind, we will use the
+shuffled 2016 data. First, let’s remind ourselves what these two
+dataframes look like.</p>
+<pre class="r"><code>city_counts_2016_shuffle</code></pre>
+<pre><code>## # A tibble: 17 x 2
+##    city_name      counts2016
+##    &lt;fct&gt;               &lt;int&gt;
+##  1 Kansas City          1223
+##  2 Mesa                  346
+##  3 Tucson                821
+##  4 San Francisco        1033
+##  5 New York             4719
+##  6 Fort Worth            568
+##  7 Seattle               682
+##  8 Louisville            438
+##  9 St Louis              492
+## 10 Austin                888
+## 11 Nashville             778
+## 12 Memphis               917
+## 13 Los Angeles          2396
+## 14 Virginia Beach        314
+## 15 Chicago              2664
+## 16 Detroit               964
+## 17 Boston                453</code></pre>
+<pre class="r"><code>city_counts_2017</code></pre>
+<pre><code>## # A tibble: 17 x 2
+##    city_name      counts2017
+##    &lt;fct&gt;               &lt;int&gt;
+##  1 Austin                868
+##  2 Boston                436
+##  3 Chicago              2642
+##  4 Detroit               792
+##  5 Fort Worth            563
+##  6 Kansas City          1261
+##  7 Los Angeles          2454
+##  8 Louisville            417
+##  9 Memphis               984
+## 10 Mesa                  334
+## 11 Nashville             782
+## 12 New York             4617
+## 13 San Francisco        1090
+## 14 Seattle               704
+## 15 St Louis              479
+## 16 Tucson                805
+## 17 Virginia Beach        297</code></pre>
+<p>Despite the different row ordering, the common id of
+<code>city_name</code> means that we can join the two datasets the city
+name. You might notice from the above graphic that it doesn’t even
+matter which join we use here, because each dataframe is equally
+complete. By way of demonstration, we use <code>full_join()</code>.</p>
+<pre class="r"><code>city_counts_joined &lt;- full_join(city_counts_2016_shuffle, city_counts_2017, by = &quot;city_name&quot;)
+
+city_counts_joined # print the joined output</code></pre>
+<pre><code>## # A tibble: 17 x 3
+##    city_name      counts2016 counts2017
+##    &lt;fct&gt;               &lt;int&gt;      &lt;int&gt;
+##  1 Kansas City          1223       1261
+##  2 Mesa                  346        334
+##  3 Tucson                821        805
+##  4 San Francisco        1033       1090
+##  5 New York             4719       4617
+##  6 Fort Worth            568        563
+##  7 Seattle               682        704
+##  8 Louisville            438        417
+##  9 St Louis              492        479
+## 10 Austin                888        868
+## 11 Nashville             778        782
+## 12 Memphis               917        984
+## 13 Los Angeles          2396       2454
+## 14 Virginia Beach        314        297
+## 15 Chicago              2664       2642
+## 16 Detroit               964        792
+## 17 Boston                453        436</code></pre>
+<p>For completion, we have explicitly stated that we are joining by
+<code>city_name</code>. What happens if we don’t do this? Remove that
+option and re-try the join. <code>tidyverse</code> really does make your
+life easier…</p>
+<p>To explore the different joins more, let’s introduce some
+differences. We create an incomplete 2017 dataframe by randomly sampling
+ten cities, and then re-trying the join. You will notice that this
+automatically identifies the missings, and retains them.</p>
+<pre class="r"><code>set.seed(1612)
+
+city_counts_2017_subset &lt;- city_counts_2017 %&gt;% 
+  sample_n(size = 10)
+
+city_counts_joined_subset &lt;-  full_join(city_counts_2016_shuffle, city_counts_2017_subset, by = &quot;city_name&quot;)
+
+city_counts_joined_subset</code></pre>
+<pre><code>## # A tibble: 17 x 3
+##    city_name      counts2016 counts2017
+##    &lt;fct&gt;               &lt;int&gt;      &lt;int&gt;
+##  1 Kansas City          1223       1261
+##  2 Mesa                  346        334
+##  3 Tucson                821        805
+##  4 San Francisco        1033       1090
+##  5 New York             4719       4617
+##  6 Fort Worth            568        563
+##  7 Seattle               682        704
+##  8 Louisville            438        417
+##  9 St Louis              492        479
+## 10 Austin                888        868
+## 11 Nashville             778         NA
+## 12 Memphis               917         NA
+## 13 Los Angeles          2396         NA
+## 14 Virginia Beach        314         NA
+## 15 Chicago              2664         NA
+## 16 Detroit               964         NA
+## 17 Boston                453         NA</code></pre>
+<p>What do you think would happen if we re-ran the above, but with
+<code>left_join()</code>? Try it out now, along with
+<code>right_join()</code> and <code>inner_join()</code>. The differences
+might be subtle, but important!</p>
 </div>
 </div>
 <div class="footnotes footnotes-end-of-document">

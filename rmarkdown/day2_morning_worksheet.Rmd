@@ -23,7 +23,7 @@ Last week, we covered various different **transform** functions such as `filter(
 
 ## Joining
 
-It is likely that at some point you will need to join two datasets together. For example, if you wanted to examine the relationship between police-recorded crime and neighbourhood deprivation, you would probably need to collate data from two sources: the police, and the census bureau, and then join the two datasets together by some common variable, such as a neighbourhood name or id code. Here, we cover two ways of joining datasets together. The first is **binding** which simply 'sticks' to datasets together. The second is **joining** which performs a merge based one or more variables which are common between the datasets.
+It is likely that at some point you will need to join two datasets together. For example, if you wanted to examine the relationship between police-recorded crime and neighbourhood deprivation, you would probably need to collate data from two sources: the police, and the census bureau, and then join the two datasets together by some common variable, such as a neighbourhood name or id code. Here, we cover two ways of joining datasets together. The first is **binding** which simply 'sticks' to datasets together. The second is **joining** which performs a merge based on one or more variables which are common between the datasets.
 
 ### Binding
 
@@ -54,20 +54,21 @@ But what if we wanted to compare the two years? This would be most straightforwa
 crimes_binded <- bind_rows(crimes_2016, crimes_2017, .id = "year")
 ```
 
-Note that **this only works because the two dataframes have identical columns**. If we change the names of columns, unusual things might happen. Run the following code and observe what happens. There is no error or warning!
+Now we can easily use things like `group_by()` to compare the two years. If you want the real counts, rather than the samples, you can download the "core" data type within `get_crime_data()`.
 
-```{r}
-crimes_2016_renamed <- crimes_2016 %>% 
-  rename(name_of_city = city_name)
-
-crimes_binded_renamed <- bind_rows(crimes_2016_renamed, crimes_2017, .id = "year")
+```{r, message=F, warning=F}
+yearly_counts <- crimes_binded %>% 
+  group_by(year, city_name) %>% 
+  summarise(count = n())
 ```
+
+Note that **this only works because the two dataframes have identical columns**. So, be sure to check these things before conducting a row bind, otherwise you might get an unexpected result.
 
 #### Column bind
 
-Another way of finding dataframes is `bind_cols()`. This sticks dataframes together side-by-side. For that reason, you have to be **super careful** that the ordering of rows is appropriate before conducting a column bind. Let's create two dataframes of city-level counts for each year. If you want the real counts, rather than the samples, you can download the "core" data type within `get_crime_data()`.
+Another way of finding dataframes is `bind_cols()`. This sticks dataframes together side-by-side. For that reason, you have to be **super careful** that the ordering of rows is appropriate before conducting a column bind. Let's create two dataframes of city-level counts for each year. 
 
-```{r}
+```{r, message=F, warning=F}
 city_counts_2016 <- crimes_2016 %>% 
   group_by(city_name) %>% 
   summarise(counts2016 = n())
@@ -83,9 +84,11 @@ If you eye-ball the above two dataframes, you can see that they are perfectly co
 city_counts_2016_2017 <- bind_cols(city_counts_2016, city_counts_2017) 
 ```
 
-But what happens if the order is different? We can simulate this by shuffling the order of one data frame, and then re-doing the bind. We do this by taking a sample without replacement.
+But what happens if the order is different? We can simulate this by shuffling the order of one data frame, and then re-doing the bind. We do this by taking a sample without replacement. You will notice that we first `set.seed()` -- this ensures our sampling is reproducible. You can read more about that [here](https://stackoverflow.com/questions/13605271/reasons-for-using-the-set-seed-function).
 
 ```{r, warning=F, message=F}
+set.seed(1612)
+
 city_counts_2016_shuffle <- city_counts_2016 %>% 
   sample_n(size = nrow(city_counts_2016), replace = FALSE)
 
@@ -94,9 +97,9 @@ city_counts_2016_2017_shuffle <- bind_cols(city_counts_2016_shuffle, city_counts
 
 Now take a look at the result. It's wrong, right? If we had done this blindly, without checks, we could have made a pretty big mistake. So, while `bind_cols()` can be useful, always ensure that the ordering is correct before conducting such a bind, and be sure to check everything afterwards.
 
-For a more reliable way of merging datasets, we would recommend **joining**.
-
 ### Joining
+
+Probably the most powerful way of merging dataframes together is by using a **join** function. These functions will match rows based on one or more common id (or 'key') variables. There are a number of different joins available within the `tidyverse`. While each are fundamentally the same, each one will treat non-matches differently. The four options available are `left_join()`, `right_join()`, `inner_join()` and `full_join()`. These are best summarised visually.
 
 <br>
 
@@ -107,3 +110,39 @@ For a more reliable way of merging datasets, we would recommend **joining**.
 </center>
 
 <br>
+
+Let's demonstrate a join by re-trying our city-wide counts comparison between 2016 and 2017. To show the difference to a bind, we will use the shuffled 2016 data. First, let's remind ourselves what these two dataframes look like.
+
+```{r}
+city_counts_2016_shuffle
+```
+
+```{r}
+city_counts_2017
+```
+
+Despite the different row ordering, the common id of `city_name` means that we can join the two datasets the city name. You might notice from the above graphic that it doesn't even matter which join we use here, because each dataframe is equally complete. By way of demonstration, we use `full_join()`. 
+
+```{r}
+city_counts_joined <- full_join(city_counts_2016_shuffle, city_counts_2017, by = "city_name")
+
+city_counts_joined # print the joined output
+```
+
+For completion, we have explicitly stated that we are joining by `city_name`. What happens if we don't do this? Remove that option and re-try the join. `tidyverse` really does make your life easier...
+
+To explore the different joins more, let's introduce some differences. We create an incomplete 2017 dataframe by randomly sampling ten cities, and then re-trying the join. You will notice that this automatically identifies the missings, and retains them.
+
+```{r}
+set.seed(1612)
+
+city_counts_2017_subset <- city_counts_2017 %>% 
+  sample_n(size = 10)
+
+city_counts_joined_subset <-  full_join(city_counts_2016_shuffle, city_counts_2017_subset, by = "city_name")
+
+city_counts_joined_subset
+```
+
+What do you think would happen if we re-ran the above, but with `left_join()`? Try it out now, along with `right_join()` and `inner_join()`. The differences might be subtle, but important!
+
