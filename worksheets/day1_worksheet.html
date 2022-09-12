@@ -9,7 +9,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="5 October 2022" />
+<meta name="author" content="5 October 2022 (morning &amp; afternoon)" />
 
 
 <title>NSCR Carpentries</title>
@@ -255,7 +255,6 @@ if (window.hljs) {
 
 
 
-
 <style type="text/css">
 .main-container {
   max-width: 940px;
@@ -276,9 +275,6 @@ button.code-folding-btn:focus {
 }
 summary {
   display: list-item;
-}
-details > summary > p:only-child {
-  display: inline;
 }
 pre code {
   padding: 0;
@@ -363,7 +359,7 @@ pre code {
 
 
 <h1 class="title toc-ignore">NSCR Carpentries</h1>
-<h4 class="author">5 October 2022</h4>
+<h4 class="author">5 October 2022 (morning &amp; afternoon)</h4>
 
 </div>
 
@@ -979,7 +975,8 @@ we could try something like this:</p>
 <pre class="r"><code>city_block_counts &lt;- disorder %&gt;% 
   group_by(city_name, census_block) %&gt;% 
   summarise(counts = n()) </code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;city_name&#39;. You can override using the `.groups` argument.</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;city_name&#39;. You can override using the `.groups`
+## argument.</code></pre>
 <pre class="r"><code>city_block_counts # print the data frame to the Console</code></pre>
 <pre><code>## # A tibble: 8,864 x 3
 ## # Groups:   city_name [16]

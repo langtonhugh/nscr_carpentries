@@ -1,6 +1,6 @@
 ---
 title: 'NSCR Carpentries'
-author: "5 October 2022"
+author: "5 October 2022 (morning & afternoon)"
 output:
   html_document:
     toc: true

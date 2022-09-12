@@ -406,7 +406,7 @@ Make sure you have the package installed using `install.packages("cowplot")` and
 
 <center>
 
-![Cowplot logo.](img/cow.png){width="50%"}
+![Cowplot logo.](img/cow.png){width="20%"}
 
 </center>
 

@@ -19,7 +19,7 @@ This page contains material for _NSCR Carpentries_, a two-day workshop hosted by
 
 ## Background
 
-Last week, we covered various different **transform** functions such as `filter()`, `mutate()` and `group_by()`. Most or all of the functions we used were in `dplyr` - a popular and powerful package within the `tidyverse`. This morning, we extend that a little by covering _joining_ (or 'merging'), which is useful when we want to 'join' or 'stick' two (or more) datasets together. After that, we cover **tidy** functions within the aptly named `tidyr` package -- again, all within the `tidyverse` (so make sure you have it loaded at the beginning of your script!). In the afternoon we cover data visualization.
+Last week, we covered various different **transform** functions such as `filter()`, `mutate()` and `group_by()`. Most or all of the functions we used were in `dplyr` - a popular and powerful package within the `tidyverse`. This morning, we extend that a little by covering _joining_ (or 'merging'), which is useful when we want to 'join' or 'stick' two (or more) datasets together. After that, we cover **tidy** functions within the aptly named `tidyr` package -- again, all within the `tidyverse`. This includes the long-wide and wide-long transformations. In the afternoon we cover data visualization. As you will have realised, we are focusing on the `tiyverse` set of packages, so make you sure you have it installed and loaded in your script for the day!
 
 ## Joining
 
@@ -145,4 +145,83 @@ city_counts_joined_subset
 ```
 
 What do you think would happen if we re-ran the above, but with `left_join()`? Try it out now, along with `right_join()` and `inner_join()`. The differences might be subtle, but important!
+
+## Tidy
+
+So far, we have been going on about the `tidyverse` without really talking about tidy data. There is no better resource to explain tidy data than [this one](http://garrettgman.github.io/tidying/). We are not even going to try and beat that. So, definitely have a read at some point! But for now, we can summarise tidy data by borrowing their definition: a tidydataset is one in which _each variable is placed in its own column, each observation in its own row, and each value in its own cell._ There is a graphical representation of this below. 
+
+<br>
+
+<center>
+
+![Source: http://garrettgman.github.io/tidying/.](img/tidydata_better.png){width="60%"}
+
+</center>
+
+<br>
+
+To some of you, this might be intuitive: it might seem obvious that data is in a tidy format, but **you would be surprised what hell some people call a data frame**. In real life, colleagues, companies and governments will share spreadsheets which do not fit this definition of 'tidy', and we are left to wrangle away until it is tidy. Luckily, we have already learnt many of the skills needed to tidy data, but one important one remains: long to wide pivots (and vice-versa).
+
+### Preperation
+
+To demonstrate these pivots, we will make use of some open data from the London Fire Service contains information about calls for service involving animals.  To prepare for this, we need to run an R script which will download and prepare the data for us. This is partly practical, but partly a nice demonstration of the `source()` function. With this function, we can run a pre-existing R script without even opening it. Assuming you have downloaded all the material for this course, and that you are working in the R project file, all you need to do is run the following in a new R script. 
+
+```{r}
+source(file = "scripts/tidy_prep.r")
+```
+
+In doing so, a number of new objects will appear in your global environment. If you are interested, feel free to look at this R script (in the scripts folder) to see what we did to make this magic happen. For now, let's begin with wide to long pivots.
+
+### Wide to long
+
+First, let's print our first example data frame to the Console.
+
+```{r}
+fire_wide1_df 
+```
+
+This dataframe contains information about the number of calls recieved by the London Fire Service between 2009 and 2018 involving particular animals. For example, there were 85 incidents in 2013 involving birds. This data is in **wide format**. How can we tell? Well, it can be tricky. But consider the first part of our (borrowed) definition: _each variable is placed in its own column_. The variable `animal_group_broad` makes sense: it is a categorical variable defining the animals involved. But what is `2009`? What is `2011`? These columns are pretty much the same variable: a currently non-existing column called 'yearly count', which is simply an incident count. 
+
+If we wanted to calculate fairly basic things, for example, the total number of incidents during the study period, or the mean number of incidents during the study period for each animal category, it would be pretty difficult due to the data format. To make things easier, we want to _pivot from wide to long_.
+
+We do this using a function called `pivot_longer()`. The first input is the wide data frame we want to pivot, in our case, `fire_wide1_df`. We then specify the columns we want to pivot (in our case, all the year columns), a new variable name to define the columns (in our case, years), and a new variable to define whatever the values in the cells are (in our case, incident counts). Note that we are pivoting _all_ columns _except_ the animal classification, hence the use of `-`. 
+
+```{r}
+fire_long1_df <- fire_wide1_df %>% 
+  pivot_longer(cols = -animal_group_broad, names_to = "years", values_to = "counts") 
+```
+
+We will be honest: **it is not always immediately clear what the `cols`, `names_to` and `values_to` options are**. If you are really not sure, we recommend taking a small subsample of the data (e.g., using `sample_n()`) and testing things out. There's no shame in this!
+
+Now print the output to take a look.
+
+```{r}
+fire_long1_df
+```
+
+This might seem less intuitive for our eyes, but it makes things way easier for computers. Now, for example, we can perform a number of useful operations using some of the skills we learnt last week. The following calculates the mean number of incidents for each animal category, for example.
+
+```{r}
+fire_long1_df %>% 
+  group_by(animal_group_broad) %>% 
+  summarise(mean_counts = mean(counts))
+```
+
+As we will discuss later, making graphics in R is also all about the long data! This will become clear this afternoon.
+
+## Long to wide
+
+Sometimes, we will need to pivot the other way round: from long to wide. A common reason for this is to make a table for a paper or presentation. Computers like long data, and humans often find wide format a bit more intuitive to read. Let's print out a long dataframe example from the London Fire Service Data.
+
+```{r}
+fire_long2_df 
+```
+
+This data is in long format. Each column is a distinct variable, and values are repeated across rows to reflect grouping (e.g., different property types nested within animal categories). We just have one variable containing the counts. We can pivot this to wide format using `pivot_wider()`. This time, we specify the variable which we are going to create new columns from (in this case, property type: one column for each unique value), and the variable which we are going to take the cell values from (in this case, counts).
+
+```{r}
+fire_wide2_df <- fire_long2_df %>% 
+  pivot_wider(names_from = "property_type", values_from = "counts")
+```
+
 
