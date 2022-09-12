@@ -364,7 +364,6 @@ pre code {
 
 <h1 class="title toc-ignore">NSCR Carpentries</h1>
 <h4 class="author">5 October 2022</h4>
-<h4 class="date">Morning session</h4>
 
 </div>
 
@@ -393,8 +392,9 @@ RStudio</a></li>
 <li><a href="#mutate">Mutate</a></li>
 <li><a href="#mutate-recode">Mutate + recode</a></li>
 </ul></li>
-<li><a href="#piping">Piping</a></li>
-<li><a href="#grouping-summarise">Grouping &amp; summarise</a></li>
+<li><a href="#piping">Piping <code>%&gt;%</code></a></li>
+<li><a href="#grouping">Grouping</a></li>
+<li><a href="#conditions">Conditions</a></li>
 <li><a href="#useful-resources">Useful resources</a></li>
 </ul>
 </div>
@@ -536,6 +536,7 @@ RStudio. If you want to print the contents of an object to the console
 simply execute the name of the object with <code>Ctrl + Enter</code>.
 For example:</p>
 <pre class="r"><code>city</code></pre>
+<pre><code>## [1] &quot;Amsterdam&quot;</code></pre>
 <p>Be careful when typing: R is case-sensitive! It wouldn’t recognise
 <code>City</code> or <code>CITY</code> even if the object
 <code>city</code> exists.</p>
@@ -547,6 +548,7 @@ something.</p>
 <p>Functions can now be applied to this object. To find the mean, we can
 simply run:</p>
 <pre class="r"><code>mean(my_numbers)</code></pre>
+<pre><code>## [1] 5</code></pre>
 <p>Although if you wanted to save the answer, you’d need to assign it to
 an object too. For example:</p>
 <pre class="r"><code>mean_my_numbers &lt;- mean(my_numbers)</code></pre>
@@ -581,8 +583,12 @@ This data frame has three variables (vectors, columns) of the same
 length (3 rows).</p>
 <pre class="r"><code>example_df &lt;- data.frame(var1 = c(&quot;id1&quot;, &quot;id2&quot;, &quot;id3&quot;),
                          var2 = c(1200, 5444, 8333),
-                         var3 = c(&quot;Ghent&quot;, &quot;Manchester&quot;, &quot;Los Angeles&quot;))
+                         var3 = c(&quot;Amsterdam&quot;, &quot;Groningen&quot;, &quot;Delft&quot;))
 example_df</code></pre>
+<pre><code>##   var1 var2      var3
+## 1  id1 1200 Amsterdam
+## 2  id2 5444 Groningen
+## 3  id3 8333     Delft</code></pre>
 <p>We don’t dwell too much on this here, but for now, it’s important to
 be aware that the type of vector you are dealing with will dictate what
 you can do with it. It’s the reason why we can calculate the mean of
@@ -723,7 +729,8 @@ data: things like filtering, selecting columns and renaming variables.
 You will notice that we are covering <strong>transform</strong> before
 <strong>tidy</strong>. The precise ordering of your own workflow might
 differ, but one way or another, these transform functions will be super
-useful early on in own work.</p>
+useful early on in own work. The key package within the
+<code>tidyverse</code> for transforming data is <code>dplyr</code>.</p>
 <p>We are going to cover some of the most common:</p>
 <ul>
 <li><code>filter()</code> to choose rows in a data frame by one or more
@@ -735,13 +742,13 @@ or more columns</li>
 <li><code>rename()</code> to rename variables</li>
 <li><code>mutate()</code> to create new variables</li>
 <li><code>recode()</code> to recode variables</li>
-<li><code>group_by()</code> to perform operations on groups</li>
-<li><code>summarise()</code> create summary data frames</li>
 </ul>
 <p>Along the way, we will also cover something called a pipe (coded as
 <code>%&gt;%</code>). The pipe will help us link all these helpful verb
 functions together, ensuring we write code which is easily written, read
-and understood!</p>
+and understood! We will then take a look at grouping (using
+<code>group_by()</code>) and conditional statements (using
+<code>if_else()</code>).</p>
 <div id="filter" class="section level3">
 <h3>Filter</h3>
 <p>We’ll be using the stop and search data again for this. Let’s say we
@@ -846,7 +853,7 @@ appended to the <code>stops</code> data frame.</p>
 </div>
 </div>
 <div id="piping" class="section level2">
-<h2>Piping</h2>
+<h2>Piping <code>%&gt;%</code></h2>
 <p>You have now learnt a bit about some key verbs within the tidyverse.
 You’ll have noticed that the first part of each function is the data
 frame object. For example,
@@ -885,22 +892,21 @@ read.</p>
   rename(ethnicity = ethnic) %&gt;% 
   drop_na()</code></pre>
 </div>
-<div id="grouping-summarise" class="section level2">
-<h2>Grouping &amp; summarise</h2>
-<p>Now we have covered pipes, let’s finish this section with a look at
-two super-useful functions: <code>group_by()</code> and
-<code>summarise()</code>. These are also <strong>transform</strong> like
-those we covered earlier, but they are best use in conjunction with the
-pipe <code>%&gt;%</code>.</p>
-<p>To demonstrate these functions, we want to make use of a new package.
-Usually you’ll download packages because they contain useful functions
-which allow you to do something, like analyse or visualise data (e..g,
-<code>tidyverse</code>), but packages often also contain data. You’ll
-have got a few with the tidyverse, but they are not crime specific.
-Lucky for you, <a href="http://lesscrime.info/">Matt Ashby</a> has
-released a package called <code>crimedata</code> which contains lots of
-open data about police recorded crime from a number of large cities in
-the United States. Install this package by editing the
+<div id="grouping" class="section level2">
+<h2>Grouping</h2>
+<p>Now we have covered pipes, let’s look at another super-useful
+functions: <code>group_by()</code>. This a key
+<strong>transform</strong> variable, but it is best used in conjunction
+with the pipe <code>%&gt;%</code>.</p>
+<p>To demonstrate <code>group_by()</code>, we want to make use of a new
+package. Usually you’ll download packages because they contain useful
+functions which allow you to do something, like analyse or visualise
+data (e..g, <code>tidyverse</code>), but packages often also contain
+data. You’ll have got a few with the tidyverse, but they are not crime
+specific. Lucky for you, <a href="http://lesscrime.info/">Matt Ashby</a>
+has released a package called <code>crimedata</code> which contains lots
+of open data about police recorded crime from a number of large cities
+in the United States. Install this package by editing the
 <code>install.packages()</code> code above for the
 <code>crimedata</code> package and then loading it using
 <code>library()</code>.</p>
@@ -933,35 +939,110 @@ the data, then pipe the grouped data through to
 <code>summarise()</code>, in which we create a new variable called
 <code>count</code> which is simply the number (<code>n</code>) of
 rows.</p>
-<pre class="r"><code>city_counts &lt;- austin_crimes %&gt;% 
+<pre class="r"><code>city_counts &lt;- disorder %&gt;% 
   group_by(city_name) %&gt;% 
   summarise(counts = n()) 
 
 city_counts # print the data frame to the Console</code></pre>
+<pre><code>## # A tibble: 16 x 2
+##    city_name      counts
+##    &lt;fct&gt;           &lt;int&gt;
+##  1 Austin           4208
+##  2 Boston            781
+##  3 Chicago           232
+##  4 Detroit           295
+##  5 Fort Worth        373
+##  6 Kansas City      1594
+##  7 Los Angeles      1227
+##  8 Louisville         42
+##  9 Memphis           121
+## 10 Mesa             1121
+## 11 Nashville          22
+## 12 New York         1085
+## 13 San Francisco     497
+## 14 St Louis         1042
+## 15 Tucson           4043
+## 16 Virginia Beach     90</code></pre>
 <p>You will notice that <code>summarise()</code> create a new data frame
 at whatever level we have specified in <code>group_by()</code>. This is
-subtly (but considerably) different from <code>mutate()</code> which
-adds a new variable to your existing data frame. Sometimes, using
+subtly (but importantly) different from <code>mutate()</code> which adds
+a new variable to your existing data frame. Sometimes, using
 <code>mutate()</code> after <code>group_by()</code> does actually make
 sense, but what do you think would happen? Try running the above code
-using <code>mutate()</code> and observe what happens.</p>
+using <code>mutate()</code> and observe what happens to the output.
+Remember that you might want to create a new data frame object to
+compare the two.</p>
 <p>One of the powerful things about <code>group_by()</code> is that you
 can input multiple groups. Say we were interested in offence counts in
 each city, but also by the census blocks nested within each city. Then
 we could try something like this:</p>
-<pre class="r"><code>city_block_counts &lt;- austin_crimes %&gt;% 
+<pre class="r"><code>city_block_counts &lt;- disorder %&gt;% 
   group_by(city_name, census_block) %&gt;% 
-  summarise(counts = n()) 
-
-city_block_counts # print the data frame to the Console</code></pre>
+  summarise(counts = n()) </code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;city_name&#39;. You can override using the `.groups` argument.</code></pre>
+<pre class="r"><code>city_block_counts # print the data frame to the Console</code></pre>
+<pre><code>## # A tibble: 8,864 x 3
+## # Groups:   city_name [16]
+##    city_name census_block    counts
+##    &lt;fct&gt;     &lt;chr&gt;            &lt;int&gt;
+##  1 Austin    484530001011000      1
+##  2 Austin    484530001011014      1
+##  3 Austin    484530001012002      1
+##  4 Austin    484530001012018      1
+##  5 Austin    484530001012028      1
+##  6 Austin    484530001013015      1
+##  7 Austin    484530002031001      1
+##  8 Austin    484530002031007     21
+##  9 Austin    484530002031009      2
+## 10 Austin    484530002041005      1
+## # ... with 8,854 more rows</code></pre>
 <p>So far, we have been using <code>n()</code> to count the number of
 rows in each unique group. But, there are plenty of other things you can
-do. By way of example, let’s calculate the mean number of offences which
-occur on each day of the week.</p>
-<p>So there we have it: a basic introduction to verbs in the tidyverse.
-This is not an exhaustive list of the functions available to wrangle
-data. There are plenty more, all of which are compatible with piping to
-make your code clear and efficient. But, these will get you started.</p>
+do. For instance, you can also calculate the mean or standard deviations
+of groups in exactly the same way, but instead of <code>n()</code> you
+would state something like <code>mean(variable_name)</code>.</p>
+</div>
+<div id="conditions" class="section level2">
+<h2>Conditions</h2>
+<p>Okay, the last function which we can use to wrangle our data is
+<code>if_else()</code>. This function is typically used to test
+conditions in one variable (i.e., ‘this is statement true’), usually to
+then create a new value based on whether the statement is
+<code>TRUE</code> or <code>FALSE</code>. By way of example, the below
+code chunk would be a base R way of writing an <code>if else</code>
+statement. Essentially, we are testing the statement of whether x is
+greater or less than a specified value. We then print different outputs
+to the Console depending on whether it is true or not. Change the value
+of <code>x</code> to see what happens. You don’t have to understand this
+code in detail, but rather, just focus on understanding the logic.</p>
+<pre class="r"><code>x &lt;- 2
+if (x &gt; 5) {
+  print(&quot;Greater than five&quot;)
+} else if (x &lt;= 5) {
+  print(&quot;Equal to or less than five&quot;)
+}</code></pre>
+<pre><code>## [1] &quot;Equal to or less than five&quot;</code></pre>
+<p>Lucky for us, <code>tidyverse</code> makes it a lot easier to write
+such statements in conjunction with the pipe <code>%&gt;%</code> and
+other verbs like <code>mutate()</code>. But the logic is the same. In
+the below example, we use the disorder data to create a new variable
+which simply tells us whether the offence took place in a residence or
+not. Note that, we nest <code>if_else()</code> in
+<code>mutate()</code>.</p>
+<pre class="r"><code>disorder &lt;- disorder %&gt;% 
+  mutate(residential = if_else(condition = location_category == &quot;residence&quot;,
+                               true  = &quot;residential location&quot;,
+                               false = &quot;non-residential location&quot;))</code></pre>
+<p>We could then, for example, easily check frequency counts. You will
+notice that our new variable is missing for incidents that already had a
+missing value is <code>location_category</code>.</p>
+<pre class="r"><code>count(disorder, residential)</code></pre>
+<pre><code>## # A tibble: 3 x 2
+##   residential                  n
+##   &lt;chr&gt;                    &lt;int&gt;
+## 1 non-residential location  4725
+## 2 residential location      2412
+## 3 &lt;NA&gt;                      9636</code></pre>
 </div>
 <div id="useful-resources" class="section level2">
 <h2>Useful resources</h2>
@@ -975,9 +1056,10 @@ a paperback too.<br />
 <li><strong>Google</strong> This is probably your best resource! Queries
 will often take you to great websites like Stack Overflow, where in 99%
 of cases, someone has asked exactly the same question you have! To get
-an answer that uses the tidyverse, follow every Google search with the
-word ‘tidyverse’ or the specific package within the tidyverse
-(e.g. ggplot2) if you know which one it is.<br />
+an answer that uses the <code>tidyverse</code>, follow every Google
+search with the word ‘tidyverse’ or the specific package within the
+<code>tidyverse</code> (e.g., <code>dplyr</code>) if you know which one
+it is.<br />
 </li>
 <li><strong>Twitter</strong> To broaden your knowledge of R more
 generally, or to keep up-to-date with the latest developments, Twitter

@@ -60,7 +60,7 @@ Source: [R for Data Science](https://r4ds.had.co.nz/)
 
 Source: [R for Data Science](https://r4ds.had.co.nz/)
 
-## Work contents
+## Workshop contents
 
 ### Day 1 (5 October)
 
@@ -112,9 +112,9 @@ Source: [R for Data Science](https://r4ds.had.co.nz/)
 
 **14:45-15:00**: Coffee
 
-**15:00-16:00**: Tidy
+**15:00-16:00**: Transform
 
-**16:00-16:45**: Exercise: tidy
+**16:00-16:45**: Exercise: transform
 
 **16:45-17:00**: Closing
 
@@ -142,9 +142,9 @@ All slides and worksheets are available online:
 
 ## Day 2: afternoon
 
-**13:00-14:00**: Transform
+**13:00-14:00**: Tidy
 
-**14:00-14:45**: Exercise: transform
+**14:00-14:45**: Exercise: tidy
 
 **14:45-15:00**: Coffee
 
