@@ -1,0 +1,109 @@
+---
+title: 'NSCR Carpentries'
+author: "12 October 2022 (morning)"
+output:
+  html_document:
+    toc: true
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(crimedata);library(dplyr);library(tidyr)
+```
+
+## Preamble
+
+This page contains material for _NSCR Carpentries_, a two-day workshop hosted by the [NSCR](https://nscr.nl/) with support from [Data and Software Carpentries](https://carpentries.org/) on 5 and 12 October, 2022.
+
+## Background
+
+Last week, we covered various different **transform** functions such as `filter()`, `mutate()` and `group_by()`. Most or all of the functions we used were in `dplyr` - a popular and powerful package within the `tidyverse`. This morning, we extend that a little by covering _joining_ (or 'merging'), which is useful when we want to 'join' or 'stick' two (or more) datasets together. After that, we cover **tidy** functions within the aptly named `tidyr` package -- again, all within the `tidyverse` (so make sure you have it loaded at the beginning of your script!). In the afternoon we cover data visualization.
+
+## Joining
+
+It is likely that at some point you will need to join two datasets together. For example, if you wanted to examine the relationship between police-recorded crime and neighbourhood deprivation, you would probably need to collate data from two sources: the police, and the census bureau, and then join the two datasets together by some common variable, such as a neighbourhood name or id code. Here, we cover two ways of joining datasets together. The first is **binding** which simply 'sticks' to datasets together. The second is **joining** which performs a merge based one or more variables which are common between the datasets.
+
+### Binding
+
+One of the crudest (but often perfectly acceptable) ways of sticking dataframes together is 'binding'. You can either bind top-to-bottom using `bind_rows()` or side-by-side using `bind_cols()`. This is demonstrated visually below. Note that when binding, there is no requirement for the datasets to have common identifier variables: you really are just sticking them together. This is easy but rather risky, as we will see.
+
+<br>
+
+<center>
+
+![Source: William Surles](img/binding.png){width="60%"}
+
+</center>
+
+<br>
+
+#### Row bind
+
+Let's first demonstrate `bind_rows()`. We begin by re-downloading some of the US crime data that we used yesterday from the `crimedata` package. As before, ensure that the package is installed and loaded. This time, we download data for 2016 _and_ 2017^[You can actually specify more than one year within the `get_crime_data()` function. This is just a demonstration.]. To speed things up, we download only a sample of the whole data each time.
+
+```{r, warning=F, message=F, results=F}
+crimes_2016 <- get_crime_data(years = 2016, type = "sample")
+crimes_2017 <- get_crime_data(years = 2017, type = "sample")
+```
+
+But what if we wanted to compare the two years? This would be most straightforward within the same dataframe. Because the two dataframes have exactly the same columns, we can use `bind_rows()` to stick them together top-to-bottom. Note that we specify an id variable to distinguish the two original dataframes. We might even want to do this beforehand using `mutate()` (e.g., `mutate(year = "2017)`).
+
+```{r}
+crimes_binded <- bind_rows(crimes_2016, crimes_2017, .id = "year")
+```
+
+Note that **this only works because the two dataframes have identical columns**. If we change the names of columns, unusual things might happen. Run the following code and observe what happens. There is no error or warning!
+
+```{r}
+crimes_2016_renamed <- crimes_2016 %>% 
+  rename(name_of_city = city_name)
+
+crimes_binded_renamed <- bind_rows(crimes_2016_renamed, crimes_2017, .id = "year")
+```
+
+#### Column bind
+
+Another way of finding dataframes is `bind_cols()`. This sticks dataframes together side-by-side. For that reason, you have to be **super careful** that the ordering of rows is appropriate before conducting a column bind. Let's create two dataframes of city-level counts for each year. If you want the real counts, rather than the samples, you can download the "core" data type within `get_crime_data()`.
+
+```{r}
+city_counts_2016 <- crimes_2016 %>% 
+  group_by(city_name) %>% 
+  summarise(counts2016 = n())
+
+city_counts_2017 <- crimes_2017 %>% 
+  group_by(city_name) %>% 
+  summarise(counts2017 = n())
+```
+
+If you eye-ball the above two dataframes, you can see that they are perfectly comparable: the same number of cities, both sorted alphabetically. So, if you conduct a simple column bind, it works fine, aside from the automatic renaming of common variables. You can then easily compare the counts across years, or calculate the difference between the two.
+
+```{r, warning=F, message=F}
+city_counts_2016_2017 <- bind_cols(city_counts_2016, city_counts_2017) 
+```
+
+But what happens if the order is different? We can simulate this by shuffling the order of one data frame, and then re-doing the bind. We do this by taking a sample without replacement.
+
+```{r, warning=F, message=F}
+city_counts_2016_shuffle <- city_counts_2016 %>% 
+  sample_n(size = nrow(city_counts_2016), replace = FALSE)
+
+city_counts_2016_2017_shuffle <- bind_cols(city_counts_2016_shuffle, city_counts_2017) 
+```
+
+Now take a look at the result. It's wrong, right? If we had done this blindly, without checks, we could have made a pretty big mistake. So, while `bind_cols()` can be useful, always ensure that the ordering is correct before conducting such a bind, and be sure to check everything afterwards.
+
+For a more reliable way of merging datasets, we would recommend **joining**.
+
+### Joining
+
+<br>
+
+<center>
+
+![Source: https://mikoontz.github.io/data-carpentry-week/lesson_join.](img/joins.png){width="60%"}
+
+</center>
+
+<br>

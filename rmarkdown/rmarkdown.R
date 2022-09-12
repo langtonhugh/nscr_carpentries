@@ -13,6 +13,10 @@ render(input       = "rmarkdown/day1_worksheet.Rmd",
        output_dir  = "worksheets",
        output_file = "day1_worksheet.html")
 
+render(input       = "rmarkdown/day2_morning_worksheet.Rmd",
+       output_dir  = "worksheets",
+       output_file = "day2_morning_worksheet.html")
+
 render(input       = "rmarkdown/day2_afternoon_worksheet.Rmd",
        output_dir  = "worksheets",
        output_file = "day2_afternoon_worksheet.html")

@@ -39,7 +39,7 @@ When you are creating graphs using `ggplot2` you can build the graph up using th
 
 ## Packages
 
-In the lecture, we noted that the common thread running between many excellent data visualisations in R is the `ggplot2` package. Whilst it might be challenging at first, mastering this package is an immensely powerful skill. With a deep understanding of `ggplot2` you can get _very_ far exploring your data, and create high-quality outputs for presentations, posters or papers. So, that is what we will focus on. You should have it installed already, as it is part of the `tidyverse`, but if not, install it using the `install.packages()` function. You will then need to load it using `library()` as we covered yesterday. 
+In the lecture, we noted that the common thread running between many excellent data visualisations in R is the `ggplot2` package. Whilst it might be challenging at first, mastering this package is an immensely powerful skill. With a deep understanding of `ggplot2` you can get _very_ far exploring your data, and create high-quality outputs for presentations, posters or papers. So, that is what we will focus on. You should have it installed already, as it is part of the `tidyverse`, but if not, install it using the `install.packages()` function. You will then need to load it using `library()` as we covered yesterday. We will also be making use of the `readr` to load in data. Again, this is part if the `tidyverse`, so make sure you load it one way or another before beginning th exercises.
 
 ## Stylised ggplot2 example
 
