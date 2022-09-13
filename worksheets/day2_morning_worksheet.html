@@ -377,7 +377,11 @@ pre code {
 <li><a href="#preperation">Preperation</a></li>
 <li><a href="#wide-to-long">Wide to long</a></li>
 </ul></li>
-<li><a href="#long-to-wide">Long to wide</a></li>
+<li><a href="#long-to-wide">Long to wide</a>
+<ul>
+<li><a href="#unite">Unite</a></li>
+<li><a href="#separate">Separate</a></li>
+</ul></li>
 </ul>
 </div>
 
@@ -675,15 +679,6 @@ it. Assuming you have downloaded all the material for this course, and
 that you are working in the R project file, all you need to do is run
 the following in a new R script.</p>
 <pre class="r"><code>source(file = &quot;scripts/tidy_prep.r&quot;)</code></pre>
-<pre><code>## --- Compiling #TidyTuesday Information for 2021-06-29 ----</code></pre>
-<pre><code>## --- There is 1 file available ---</code></pre>
-<pre><code>## --- Starting Download ---</code></pre>
-<pre><code>## 
-##  Downloading file 1 of 1: `animal_rescues.csv`</code></pre>
-<pre><code>## --- Download complete ---</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;cal_year&#39;. You can override using the `.groups` argument.
-## `summarise()` has grouped output by &#39;animal_group_broad&#39;. You can override using the `.groups` argument.
-## `summarise()` has grouped output by &#39;borough_code&#39;, &#39;ward_code&#39;. You can override using the `.groups` argument.</code></pre>
 <p>In doing so, a number of new objects will appear in your global
 environment. If you are interested, feel free to look at this R script
 (in the scripts folder) to see what we did to make this magic happen.
@@ -694,15 +689,15 @@ For now, let’s begin with wide to long pivots.</p>
 <p>First, let’s print our first example data frame to the Console.</p>
 <pre class="r"><code>fire_wide1_df </code></pre>
 <pre><code>## # A tibble: 6 x 13
-##   animal_group_bro~ `2009` `2010` `2011` `2012` `2013` `2014` `2015` `2016` `2017` `2018`
-##   &lt;fct&gt;              &lt;int&gt;  &lt;int&gt;  &lt;int&gt;  &lt;int&gt;  &lt;int&gt;  &lt;int&gt;  &lt;int&gt;  &lt;int&gt;  &lt;int&gt;  &lt;int&gt;
-## 1 Bird                  89     99    120    112     85    110    106    120    124    126
-## 2 Cat                  262    294    309    302    312    295    262    296    257    304
-## 3 Dog                  132    122    103    100     93     90     88    107     81     91
-## 4 Fox                   16     17     26     14     25     22     21     29     33     33
-## 5 Horse                 19     15     22     28     16     12     12     12     10     12
-## 6 Other                 50     64     40     47     54     54     51     40     34     44
-## # ... with 2 more variables: 2019 &lt;int&gt;, 2020 &lt;int&gt;</code></pre>
+##   animal_group_broad `2009` `2010` `2011` `2012` `2013` `2014` `2015` `2016`
+##   &lt;fct&gt;               &lt;int&gt;  &lt;int&gt;  &lt;int&gt;  &lt;int&gt;  &lt;int&gt;  &lt;int&gt;  &lt;int&gt;  &lt;int&gt;
+## 1 Bird                   89     99    120    112     85    110    106    120
+## 2 Cat                   262    294    309    302    312    295    262    296
+## 3 Dog                   132    122    103    100     93     90     88    107
+## 4 Fox                    16     17     26     14     25     22     21     29
+## 5 Horse                  19     15     22     28     16     12     12     12
+## 6 Other                  50     64     40     47     54     54     51     40
+## # ... with 4 more variables: 2017 &lt;int&gt;, 2018 &lt;int&gt;, 2019 &lt;int&gt;, 2020 &lt;int&gt;</code></pre>
 <p>This dataframe contains information about the number of calls
 received by the London Fire Service between 2009 and 2018 involving
 particular animals. For example, there were 85 incidents in 2013
@@ -809,16 +804,114 @@ across columns, and the values for each has been taken from the existing
 <code>counts</code> variable.</p>
 <pre class="r"><code>fire_wide2_df</code></pre>
 <pre><code>## # A tibble: 6 x 7
-##   animal_group_broad Dwelling `Non Residential` `Other Resident~ Outdoor `Outdoor Struct~
-##   &lt;fct&gt;                 &lt;dbl&gt;             &lt;dbl&gt;            &lt;dbl&gt;   &lt;dbl&gt;            &lt;dbl&gt;
-## 1 Bird                     40                18                0      26                5
-## 2 Cat                     171                20                2      58                4
-## 3 Dog                      44                10                0      56               13
-## 4 Fox                       5                 1                0       6                4
-## 5 Horse                     0                 1                0      17                0
-## 6 Other                    24                 4                2      15                3
-## # ... with 1 more variable: Road Vehicle &lt;dbl&gt;</code></pre>
+##   animal_group_broad Dwelling `Non Residential` `Other Residential` Outdoor
+##   &lt;fct&gt;                 &lt;dbl&gt;             &lt;dbl&gt;               &lt;dbl&gt;   &lt;dbl&gt;
+## 1 Bird                     40                18                   0      26
+## 2 Cat                     171                20                   2      58
+## 3 Dog                      44                10                   0      56
+## 4 Fox                       5                 1                   0       6
+## 5 Horse                     0                 1                   0      17
+## 6 Other                    24                 4                   2      15
+## # ... with 2 more variables: Outdoor Structure &lt;dbl&gt;, Road Vehicle &lt;dbl&gt;</code></pre>
 <p>That’s it! That’s long to wide and back again.</p>
+<div id="unite" class="section level3">
+<h3>Unite</h3>
+<p>Another useful tidying function is <code>unite()</code>. Fortunately,
+it’s a lot easier to get your head around compared to pivots. This
+function will simply pastes together the contents of columns. Let’s
+demonstrate this using the raw fire service data. We have two variables
+<code>property_type</code> and <code>property_category</code> which
+describe where the incident took place. We can preview these variables
+by printing their unique values to the Console using
+<code>distinct()</code>.</p>
+<pre class="r"><code>distinct(fire_clean_df, property_type)</code></pre>
+<pre><code>## # A tibble: 179 x 1
+##    property_type                               
+##    &lt;chr&gt;                                       
+##  1 House - single occupancy                    
+##  2 Railings                                    
+##  3 Pipe or drain                               
+##  4 Intensive Farming Sheds (chickens, pigs etc)
+##  5 Park                                        
+##  6 Lake/pond/reservoir                         
+##  7 River/canal                                 
+##  8 Tree scrub                                  
+##  9 Car                                         
+## 10 Other animal boarding/breeding establishment
+## # ... with 169 more rows</code></pre>
+<pre class="r"><code>distinct(fire_clean_df, property_category)</code></pre>
+<pre><code>## # A tibble: 7 x 1
+##   property_category
+##   &lt;chr&gt;            
+## 1 Dwelling         
+## 2 Outdoor Structure
+## 3 Non Residential  
+## 4 Outdoor          
+## 5 Road Vehicle     
+## 6 Other Residential
+## 7 Boat</code></pre>
+<p>What if we wanted to combine these categories into a new variable?
+This is where <code>unite()</code> comes in. Note that we first state
+the new variable name, the variables we want to unite, and how we want
+to separate them in the new variable.</p>
+<pre class="r"><code>fire_clean_df &lt;- fire_clean_df %&gt;% 
+  unite(col = &quot;property_description&quot;, 
+        property_type, property_category,
+        sep = &quot; - &quot;)</code></pre>
+<p>By default, <code>unite()</code> will remove the variables you have
+united. Take a look at the help documentation <code>?unite</code> to
+find out how you can turn this option off, and keep the original
+variables.</p>
+</div>
+<div id="separate" class="section level3">
+<h3>Separate</h3>
+<p>To do the opposite of <code>unite()</code> we can use
+<code>separate()</code>. To give a different example, we will separate
+the variable <code>fin_year</code> which tells us the financial year of
+the incident (April to April).</p>
+<pre class="r"><code>distinct(fire_clean_df, fin_year)</code></pre>
+<pre><code>## # A tibble: 13 x 1
+##    fin_year
+##    &lt;chr&gt;   
+##  1 2008/09 
+##  2 2009/10 
+##  3 2010/11 
+##  4 2011/12 
+##  5 2012/13 
+##  6 2013/14 
+##  7 2014/15 
+##  8 2015/16 
+##  9 2016/17 
+## 10 2017/18 
+## 11 2018/19 
+## 12 2019/20 
+## 13 2020/21</code></pre>
+<p>Let’s say we wanted to identify the <em>year beginning</em> and
+<em>year end</em>. We can separate this variable based on the forward
+slash.</p>
+<pre class="r"><code>fire_clean_df &lt;- fire_clean_df %&gt;% 
+  separate(col = fin_year,
+           into = c(&quot;year_begin&quot;, &quot;year_end&quot;),
+           sep = &quot;/&quot;)</code></pre>
+<p>Check that it worked.</p>
+<pre class="r"><code>distinct(fire_clean_df, year_begin)</code></pre>
+<pre><code>## # A tibble: 13 x 1
+##    year_begin
+##    &lt;chr&gt;     
+##  1 2008      
+##  2 2009      
+##  3 2010      
+##  4 2011      
+##  5 2012      
+##  6 2013      
+##  7 2014      
+##  8 2015      
+##  9 2016      
+## 10 2017      
+## 11 2018      
+## 12 2019      
+## 13 2020</code></pre>
+</div>
 </div>
 <div class="footnotes footnotes-end-of-document">
 <hr />

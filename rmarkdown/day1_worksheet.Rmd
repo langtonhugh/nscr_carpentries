@@ -78,7 +78,7 @@ The executed code will appear in the console. You'll notice that nothing else ac
 city
 ```
 
-Be careful when typing: R is case-sensitive! It wouldn't recognise `City` or `CITY` even if the object `city` exists.
+Be careful when typing: R is case-sensitive! It wouldn't recognize `City` or `CITY` even if the object `city` exists.
 
 You can assign anything to an object. If we want to assign a series of numbers (or words), we use a similar concept to concatenate in Excel, simply to let R know that we are giving it more than one of something.
 
@@ -135,7 +135,7 @@ R comes with a huge amount of built-in functionality. You can load, manipulate, 
 
 <br>
 
-To install the tidyverse in R, you can run the following code. Once installed, you tend not to have to reinstall packages, so this is a rare occasion when you can simply type or copy and paste the code into the console and hit `Enter`, rather than typing it into the script editor. Because the tidyverse is quite extensive, containing a number of packages, the install may take a few minutes.
+To install the tidyverse in R, you can run the following code. Once installed, you tend not to have to re-install packages, so this is a rare occasion when you can simply type or copy and paste the code into the console and hit `Enter`, rather than typing it into the script editor. Because the tidyverse is quite extensive, containing a number of packages, the install may take a few minutes.
 
 ```{r, eval = F}
 install.packages('tidyverse')
@@ -380,6 +380,26 @@ city_block_counts # print the data frame to the Console
 ```
 
 So far, we have been using `n()` to count the number of rows in each unique group. But, there are plenty of other things you can do. For instance, you can also calculate the mean or standard deviations of groups in exactly the same way, but instead of `n()` you would state something like `mean(variable_name)`. 
+
+To demonstrate this quickly, we load in calls for service data from Detroit, United States, during 2019. First, take a moment to understand the structure of the data using some of the functions we learnt earlier, such as `glimpse()` and `View()`.
+
+```{r}
+# Load data.
+detroit_df <- read_csv("https://github.com/langtonhugh/nscr_graphics/raw/main/data/detroit_calls.csv")
+```
+
+You will notice that each row is an incident, and for each incident we have information, including the call classification, priority level, and the time spent at different stages of the response, amongst other things. Here, we group by the priority level of the call (1=highest priority, 5=lowest priority) and then calculate the mean, median and standard deviation of the dispatch time. Note that we remove missings when making the calculations.
+
+```{r}
+# Make a descriptive table of dispatch times by priority level.
+detroit_df %>% 
+  group_by(priority) %>% 
+  summarise(mean_travel   = mean(dispatchtime  , na.rm = TRUE),
+            median_travel = median(dispatchtime, na.rm = TRUE),
+            sd_travel     = sd(dispatchtime    , na.rm = TRUE))
+```
+
+
 
 ## Conditions
 

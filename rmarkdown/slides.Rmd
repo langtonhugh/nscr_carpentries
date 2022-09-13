@@ -88,7 +88,7 @@ Source: [R for Data Science](https://r4ds.had.co.nz/)
 
 <center>
 
-![](img/arrested_development.gif){width="65%"}
+![](img/simpsons_questions.gif){width="65%"}
 
 </center>
 

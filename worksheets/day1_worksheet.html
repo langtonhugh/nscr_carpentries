@@ -533,7 +533,7 @@ simply execute the name of the object with <code>Ctrl + Enter</code>.
 For example:</p>
 <pre class="r"><code>city</code></pre>
 <pre><code>## [1] &quot;Amsterdam&quot;</code></pre>
-<p>Be careful when typing: R is case-sensitive! It wouldn’t recognise
+<p>Be careful when typing: R is case-sensitive! It wouldn’t recognize
 <code>City</code> or <code>CITY</code> even if the object
 <code>city</code> exists.</p>
 <p>You can assign anything to an object. If we want to assign a series
@@ -618,9 +618,9 @@ Science</a>, which covers the fundamentals of data science in R.</p>
 </center>
 <p><br></p>
 <p>To install the tidyverse in R, you can run the following code. Once
-installed, you tend not to have to reinstall packages, so this is a rare
-occasion when you can simply type or copy and paste the code into the
-console and hit <code>Enter</code>, rather than typing it into the
+installed, you tend not to have to re-install packages, so this is a
+rare occasion when you can simply type or copy and paste the code into
+the console and hit <code>Enter</code>, rather than typing it into the
 script editor. Because the tidyverse is quite extensive, containing a
 number of packages, the install may take a few minutes.</p>
 <pre class="r"><code>install.packages(&#39;tidyverse&#39;)</code></pre>
@@ -975,8 +975,8 @@ we could try something like this:</p>
 <pre class="r"><code>city_block_counts &lt;- disorder %&gt;% 
   group_by(city_name, census_block) %&gt;% 
   summarise(counts = n()) </code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;city_name&#39;. You can override using the `.groups`
-## argument.</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;city_name&#39;. You can override using the
+## `.groups` argument.</code></pre>
 <pre class="r"><code>city_block_counts # print the data frame to the Console</code></pre>
 <pre><code>## # A tibble: 8,864 x 3
 ## # Groups:   city_name [16]
@@ -998,6 +998,43 @@ rows in each unique group. But, there are plenty of other things you can
 do. For instance, you can also calculate the mean or standard deviations
 of groups in exactly the same way, but instead of <code>n()</code> you
 would state something like <code>mean(variable_name)</code>.</p>
+<p>To demonstrate this quickly, we load in calls for service data from
+Detroit, United States, during 2019. First, take a moment to understand
+the structure of the data using some of the functions we learnt earlier,
+such as <code>glimpse()</code> and <code>View()</code>.</p>
+<pre class="r"><code># Load data.
+detroit_df &lt;- read_csv(&quot;https://github.com/langtonhugh/nscr_graphics/raw/main/data/detroit_calls.csv&quot;)</code></pre>
+<pre><code>## Rows: 87504 Columns: 13
+## -- Column specification --------------------------------------------------------
+## Delimiter: &quot;,&quot;
+## chr   (1): calldescription
+## dbl  (11): incident_id, zip_code, X, Y, priority, intaketime, dispatchtime, ...
+## dttm  (1): call_timestamp
+## 
+## i Use `spec()` to retrieve the full column specification for this data.
+## i Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<p>You will notice that each row is an incident, and for each incident
+we have information, including the call classification, priority level,
+and the time spent at different stages of the response, amongst other
+things. Here, we group by the priority level of the call (1=highest
+priority, 5=lowest priority) and then calculate the mean, median and
+standard deviation of the dispatch time. Note that we remove missings
+when making the calculations.</p>
+<pre class="r"><code># Make a descriptive table of dispatch times by priority level.
+detroit_df %&gt;% 
+  group_by(priority) %&gt;% 
+  summarise(mean_travel   = mean(dispatchtime  , na.rm = TRUE),
+            median_travel = median(dispatchtime, na.rm = TRUE),
+            sd_travel     = sd(dispatchtime    , na.rm = TRUE))</code></pre>
+<pre><code>## # A tibble: 6 x 4
+##   priority mean_travel median_travel sd_travel
+##      &lt;dbl&gt;       &lt;dbl&gt;         &lt;dbl&gt;     &lt;dbl&gt;
+## 1        1       2.39            1.1      6.95
+## 2        2       7.81            0       26.9 
+## 3        3       8.08            0       34.6 
+## 4        4       8.31            0       38.9 
+## 5        5       7.51            0       32.7 
+## 6       NA       0.369           0        2.63</code></pre>
 </div>
 <div id="conditions" class="section level2">
 <h2>Conditions</h2>

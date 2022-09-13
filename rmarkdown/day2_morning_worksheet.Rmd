@@ -170,7 +170,7 @@ To demonstrate these pivots, we will make use of some open data from the London 
 source(file = "scripts/tidy_prep.r")
 ```
 
-```{r, echo = F}
+```{r, echo = F, message=F, warning=F, results=F}
 setwd("C:/Users/langt/Documents/GitHub/nscr_carpentries") # temporary hack.
 source(file = "scripts/tidy_prep.r")
 ```
@@ -237,6 +237,48 @@ fire_wide2_df
 
 That's it! That's long to wide and back again.
 
+### Unite
+
+Another useful tidying function is `unite()`. Fortunately, it's a lot easier to get your head around compared to pivots. This function will simply pastes together the contents of columns. Let's demonstrate this using the raw fire service data. We have two variables `property_type` and `property_category` which describe where the incident took place. We can preview these variables by printing their unique values to the Console using `distinct()`.
+
+```{r}
+distinct(fire_clean_df, property_type)
+```
+
+```{r}
+distinct(fire_clean_df, property_category)
+```
+
+What if we wanted to combine these categories into a new variable? This is where `unite()` comes in. Note that we first state the new variable name, the variables we want to unite, and how we want to separate them in the new variable.
+
+```{r}
+fire_clean_df <- fire_clean_df %>% 
+  unite(col = "property_description", 
+        property_type, property_category,
+        sep = " - ")
+```
+
+By default, `unite()` will remove the variables you have united. Take a look at the help documentation `?unite` to find out how you can turn this option off, and keep the original variables.
+
 ### Separate
 
-### Unit
+To do the opposite of `unite()` we can use `separate()`. To give a different example, we will separate the variable `fin_year` which tells us the financial year of the incident (April to April).
+
+```{r}
+distinct(fire_clean_df, fin_year)
+```
+
+Let's say we wanted to identify the _year beginning_ and _year end_. We can separate this variable based on the forward slash.
+
+```{r}
+fire_clean_df <- fire_clean_df %>% 
+  separate(col = fin_year,
+           into = c("year_begin", "year_end"),
+           sep = "/")
+```
+
+Check that it worked.
+
+```{r}
+distinct(fire_clean_df, year_begin)
+```

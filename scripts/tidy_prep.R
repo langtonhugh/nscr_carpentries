@@ -64,4 +64,4 @@ fire_long2_df <- fire_wide2_df %>%
                values_to = "counts")
 
 # Remove things that might confuse people.
-rm(fire_clean_df, fire_df, tt_df, fire_wards_df)
+rm(fire_df, tt_df, fire_wards_df)
