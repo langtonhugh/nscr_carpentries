@@ -175,7 +175,6 @@ setwd("C:/Users/langt/Documents/GitHub/nscr_carpentries") # temporary hack.
 source(file = "scripts/tidy_prep.r")
 ```
 
-In doing so, a number of new objects will appear in your global environment. If you are interested, feel free to look at this R script (in the scripts folder) to see what we did to make this magic happen. For now, let's begin with wide to long pivots.
 
 ### Wide to long
 

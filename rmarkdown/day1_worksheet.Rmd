@@ -394,12 +394,10 @@ You will notice that each row is an incident, and for each incident we have info
 # Make a descriptive table of dispatch times by priority level.
 detroit_df %>% 
   group_by(priority) %>% 
-  summarise(mean_travel   = mean(dispatchtime  , na.rm = TRUE),
-            median_travel = median(dispatchtime, na.rm = TRUE),
-            sd_travel     = sd(dispatchtime    , na.rm = TRUE))
+  summarise(mean_resonse    = mean(totalresponsetime  , na.rm = TRUE),
+            median_response = median(totalresponsetime, na.rm = TRUE),
+            sd_response     = sd(totalresponsetime    , na.rm = TRUE))
 ```
-
-
 
 ## Conditions
 

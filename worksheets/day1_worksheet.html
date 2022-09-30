@@ -1023,18 +1023,18 @@ when making the calculations.</p>
 <pre class="r"><code># Make a descriptive table of dispatch times by priority level.
 detroit_df %&gt;% 
   group_by(priority) %&gt;% 
-  summarise(mean_travel   = mean(dispatchtime  , na.rm = TRUE),
-            median_travel = median(dispatchtime, na.rm = TRUE),
-            sd_travel     = sd(dispatchtime    , na.rm = TRUE))</code></pre>
+  summarise(mean_resonse    = mean(totalresponsetime  , na.rm = TRUE),
+            median_response = median(totalresponsetime, na.rm = TRUE),
+            sd_response     = sd(totalresponsetime    , na.rm = TRUE))</code></pre>
 <pre><code>## # A tibble: 6 x 4
-##   priority mean_travel median_travel sd_travel
-##      &lt;dbl&gt;       &lt;dbl&gt;         &lt;dbl&gt;     &lt;dbl&gt;
-## 1        1       2.39            1.1      6.95
-## 2        2       7.81            0       26.9 
-## 3        3       8.08            0       34.6 
-## 4        4       8.31            0       38.9 
-## 5        5       7.51            0       32.7 
-## 6       NA       0.369           0        2.63</code></pre>
+##   priority mean_resonse median_response sd_response
+##      &lt;dbl&gt;        &lt;dbl&gt;           &lt;dbl&gt;       &lt;dbl&gt;
+## 1        1        11.2              9.4        9.45
+## 2        2        11.8              0         30.9 
+## 3        3        10.6              0         38.2 
+## 4        4        10.7              0         42.8 
+## 5        5        10.1              0         36.6 
+## 6       NA         2.59             0          5.31</code></pre>
 </div>
 <div id="conditions" class="section level2">
 <h2>Conditions</h2>
