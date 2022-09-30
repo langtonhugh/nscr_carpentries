@@ -8,8 +8,10 @@ editor_options:
   chunk_output_type: inline
 ---
 
+## FYdK I needed to install crimedata before I could run the chunk below
+
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+knitr::opts_chunk$set(echo = TRUE)
 library(crimedata)
 ```
 
@@ -25,7 +27,7 @@ R is a programming language and open source software environment. Although it is
 
 In reality, many of us will spend most of our time on importing, tidying, transforming and visualising our data. This is like the infamous '80:20' rule. 80% of your time will be spent on wrangling with the data, 20% will be spent on actually running fancy statistical models. You might get the answers you want without even running any fancy statistics!
 
-So, this is what we focus on: wrangling and visualisation. Getting these basics nailed early on will drastically improve the efficiency of many research tasks through automation, and open up a variety of new tools that are not available in more 'traditional' software like Excel. Perhaps even more importantly, it will also make your research transparent and reproducible (both for yourself, and others).
+So, this is what we focus on: wrangling and visualisation. Getting these basics nailed early on will drastically improve the efficiency of many research tasks through automation, and open up a variety of new tools that are not available in more 'traditional' software like Excel. Perhaps even more importantly, it will also make your research transparent and reproducible (both for yourself, and others).W
 
 Although R is available as a stand-alone piece of software, it is most commonly used through a user-friendly interface _RStudio_. We recommend that you first [download R](https://cran.r-project.org/bin/windows/base/) and then [download RStudio](https://www.rstudio.com/products/rstudio/download/). All the examples in this workshop will be done in _RStudio_. We'll cover (or have covered) the basics of the _RStudio_ interface during live demonstrations, but as a reminder, there are four main windows: the script editor, console, global environment and help/plots.
 
@@ -50,6 +52,9 @@ A lot of things in RStudio are easier if you work inside what's called a project
 
 Luckily for you, assuming you have downloaded all the workshop material, you will already have a pre-prepared project. Your folder structure will look something like the screenshot below. You will notice a file called **nscr_carpentries** which has the file extension .Rproj. This is the R project for the workshop. Throughout today and next week, we recommend that you always work within this project. Opening this file will automatically open RStudio. You can see which project you are working on in the top right. This should confirm that you are working within the **nscr_carpentries** project.
 
+## FYdK I suggest that here we all work along - or in ohter words browse to the file you are mentioning above and opening the project
+
+
 <br>
 
 <center>
@@ -61,6 +66,8 @@ Luckily for you, assuming you have downloaded all the workshop material, you wil
 <br>
 
 For future reference, and your own work going forward, you can set up an R project yourself with just a few clicks. We recommend [this brief tutorial](https://bookdown.org/daniel_dauber_io/r4np_book/starting-your-r-projects.html). But, there's no need to do this now, unless you really want to!
+
+
 
 ### Objects and functions
 
@@ -110,7 +117,7 @@ If you want to know more about a function, you can type `?` before the function 
 
 So far, we've been creating what are termed [vectors](http://adv-r.had.co.nz/Data-structures.html). Vectors are the most basic structure of data in R, and are simply just a collection of things which are the same type. You can check what type a vector is using the function `typeof()`, or the (more broad) class with `class()`. There are a few different types and classes of vector in R, and we recommend that you read this [article about object types](https://swcarpentry.github.io/r-novice-inflammation/13-supp-data-structures/) to understand them more.
 
-A data structure you will be familiar with is a data frame. In R, you can think of a data frame as a list of vectors (i.e. columns, variables) of equal length (i.e. same number of rows). For instance, we can create a new data frame in a similar manner to how we created vectors above, but pre-specify that we want to stick these together to create a data frame. This data frame has three variables (vectors, columns) of the same length (3 rows).
+A data structure you will be familiar with is a data frame. In R, you can think of a data frame as a list of vectors (i.e. columns, variables) of equal length (i.e. same number of rows). For instance, we can create a new data frame in a similar manner to how we created vectors above, but pre-specify we want to stick these together to create a data frame. This data frame has three variables (vectors, columns) of the same length (3 rows).
 
 ```{r}
 example_df <- data.frame(var1 = c("id1", "id2", "id3"),
@@ -119,25 +126,15 @@ example_df <- data.frame(var1 = c("id1", "id2", "id3"),
 example_df
 ```
 
-You can 'access' the vectors within this dataframe using the `$` symbol. For example, to print out the contents of `var3` we can just run `example_df$var3`. We don't dwell too much on this here, but for now, it's important to be aware that the type of vector (i.e., column) you are dealing with will dictate what you can do with it. We take a look at this briefly in the exercise below. Whilst some of this might seem obvious, it's worthwhile being aware of these different types and classes. You can complete the workshop without looking at the links above, but we recommend you return to it later on!
+We don't dwell too much on this here, but for now, it's important to be aware that the type of vector you are dealing with will dictate what you can do with it. It's the reason why we can calculate the mean of `my_numbers` or `var2` but not `city` or `var3`, for instance. Whilst this might seem obvious, it's worthwhile being aware of these different types and classes. You can complete the exercises today without looking at the reading links above, but we recommend you return to it later on.
 
-<div style="background: ghostwhite; 
-            font-size: 16px; 
-            padding: 10px; 
-            border: 1px solid lightgray; 
-            margin: 10px;">
-            
-### Exercise
-
-1. What class is the `my_numbers` vector? Don't guess: check it using code.
-2. Gather some data! How tall are you and your study neighbours (in centimetres)? Get as much as data as possible, and create a new vector will everyone's heights.
-3. Calculate the mean and standard deviation of this vector.
-4. Using the `$` symbol, calculate the mean of `var2` in the `example_df` data frame above.
-5. Calculate the mean of the `var3` variable. What happens and why?
-
-</div>
-
-
+## FYdK Perfect place for a few short excercises. 
+1. Calculate the mean of var 2
+2. Calculate the standardeviation of var 2
+3. Calculate the mean of var 1
+4. Find out why excercise 3 is not working
+> class(example_df$var1)
+[1] "character"
 
 ### Installing packages
 
@@ -187,54 +184,38 @@ download.file(url = "https://github.com/langtonhugh/ESC2019_materials/raw/master
 
 It's always a good idea to store an unaltered copy of any data on your computer, just in case the original version is later removed from the website you downloaded it from.
 
-<div style="background: ghostwhite; 
-            font-size: 16px; 
-            padding: 10px; 
-            border: 1px solid lightgray; 
-            margin: 10px;">
-            
-### Exercise
 
-1. Browse to your `data` folder in order to check you have downloaded it properly. Does the logic of the folder structure, and relative file path from the R project, make sense?
-2. Import the **downloaded data** (i.e., the file now stored on your computer) into your R environment. Clue: you can still use `read_csv()` but instead of the URL, you will need to refer to the file location in your computer.
 
-</div>
 
-Note again that this example demonstrates one benefit of using projects: we do not have to specify the whole working directory path (e.g.,         `C:/users/joedart/myproject ...`) because everything starts from the project folder by default.
+Once you've downloaded the file, load it in the same way using `read_csv()` but this time, we load it from wherever it was saved. Note again that this example demonstrates one benefit of using projects: we do not have to specify the whole working directory path (e.g.,         `C:/users/joe_dart/myproject ...`) because everything starts from the project folder by default.
 
-```{r, eval = F, echo = F}
+## FYdK here I think it helps to ask people to browse to the folder and find the data. Would be great to make it a bit interactive to keep people awake and motivated. Maybe ask someone to tell the others where to find the downloaded file, before you explain the solution.
+
+## FYdK Ask people to do this stops <- read_csv(file = "data/stops_data.csv") themselves before showing the solution below. Also ask someone to explain their solution shortly before proceeding
+
+## FYdK For such interactive parts I am wondering whether we will provide participants the full markdown file from the beginning on, because then they can read the material and do not need to think themselves. The learning effect is larger when people need to think about the solution themselves.
+
+```{r, eval = F}
 stops <- read_csv(file = "data/stops_data.csv")
 ```
 
+
 ## Explore
 
-Once you've loaded data into R (whichever way you've done it above), there's a few useful functions you can use to explore the data itself. We've given you a few examples in the exercise below. You'll notice that for the first function, we've added a comment as a brief explanation. Anything you write after a `#` is treated as a comment and is ignored by R when running chunks of code. It's useful to add comments as you go when writing code, explaining what you are doing and why. You will thank yourself for doing this when returning to code you wrote months earlier.
+Once you've loaded data into R (whichever way you've done it above), there's a few useful functions you can use to explore it a bit. Try each of these one at time and review the outcome. You'll notice that we've added comments after each line of code below as a brief explanation. Anything you write after a `#` is treated as a comment and is ignored by R when running chunks of code. It's useful to add comments as you go when writing code, explaining what you are doing and why. You will thank yourself for doing this when returning to code you wrote months earlier.
+
+## FYdK for the code 206-216: Aks participants to run each line and then comment behin the line what the line of code does. so basically ask paricipants to produce the green comments
 
 ```{r, eval = F}
 head(stops)         # Print the top 6 rows (i.e. observations) 
-View(stops)         
-sum(is.na(stops))   
-nrow(stops)         
-summary(stops)      
-glimpse(stops)      
+tail(stops)         # Print the bottom 6 rows
+View(stops)         # View the data in a new window
+sum(is.na(stops))   # Count missings in the data frame
+nrow(stops)         # Number of rows
+ncol(stops)         # Number of columns
+summary(stops)      # Basic descriptives of each variable
+glimpse(stops)      # Summary of each variable (e.g., classes, values)
 ```
-
-<div style="background: ghostwhite; 
-            font-size: 16px; 
-            padding: 10px; 
-            border: 1px solid lightgray; 
-            margin: 10px;">
-            
-### Exercise
-
-1. Run each of the above exploratory functions. What do each of them do? Write a comment in your own script to describe what each line of code does.
-2. You have seen that `head()` prints the top six rows of your data frame. What function can we use to print the **bottom** six rows? Remember: Google is your friend.
-3. How can you calculate the number of **columns** in the `stops` data frame?
-4. How many missing values are there in the `clothing_rm`?
-5. Create a vector which simply contains the column **names** in `stops`. We haven't told you the function for this, but you might be able to guess. Failing that, Google!
-
-</div>
-
 
 As we saw earlier, and as you might have worked out in the exercise above, we can make use of the `$` sign to generate descriptives about specific vectors (variables) within a data frame. To refer to a specific variable, you need to state the data frame object and then the variable name using this `$` symbol. So, to count the number of missings for a specific variable `age` in `stops` you would run:
 
@@ -242,13 +223,17 @@ As we saw earlier, and as you might have worked out in the exercise above, we ca
 sum(is.na(stops$age)) # There are 136 missings in the age variable
 ```
 
+## FYdK: Here ask participants to do the same for another variable
+
 Or to print a basic frequency table:
 
 ```{r, eval = F}
 table(stops$age)
 ```
 
-As we'll see, one of the benefits of using the tidyverse is that you often don't need to use `$`, which can look quite messy, but it's definitely worth knowing. For instance, we could replicate the frequency count above using `count()` which is part of the `dplyr` package in the `tidyverse`.
+As we need to use `$`, which can look quite messy, but it's definitely worth knowing. For instance, we could replicate the frequency count above using `count()` which is part of the `dplyr` package in the `tidyverse`.
+
+## FYdK 
 
 ```{r, eval = F}
 count(stops, age)
@@ -269,6 +254,8 @@ We are going to cover some of the most common:
 - `recode()` to recode variables
 
 Along the way, we will also cover something called a pipe (coded as `%>%`). The pipe will help us link all these helpful verb functions together, ensuring we write code which is easily written, read and understood! We will then take a look at grouping (using `group_by()`) and conditional statements (using `if_else()`).
+## FYdK I am wondering whether we should mention this later on when we start using them instead of now. It might be an overload of information if we mention this without explaining or practicing it
+## FYdK also introduce the other type of pipe |> 
 
 ### Filter
 
@@ -278,18 +265,13 @@ We'll be using the stop and search data again for this. Let's say we are only in
 stop_arrests <- filter(stops, outcome == "Arrest")
 ```
 
-<div style="background: ghostwhite; 
-            font-size: 16px; 
-            padding: 10px; 
-            border: 1px solid lightgray; 
-            margin: 10px;">
-            
-### Exercise
+Take a look at this new object using the `View` function.
 
-1. Check that the above filter worked manually by using `View(stop_arrests)`.
-2. Check that the above filter worked computationally. There are few ways you can do this, for example, printing out unique values of `outcome`, or running a frequency count.
+```{r, eval = F}
+View(stop_arrests)
+```
 
-</div>
+## FYdK: To keep interaction in ask people what happend? What do they see?
 
 ### Select
 
@@ -299,19 +281,11 @@ In some cases, you might only be interested in a small number of variables. Here
 stops_subset <- select(stops, gender, age, ethnic, outcome)
 ```
 
-If you are interested in all but one or two variables, it's easier to specify what you _don't_ want rather than what you _do_ want. Notice that by assigning this new `select()` function to an object `stops_subset` we are overwriting the original. It doesn't matter here, but it's worth remembering. Generally speaking, it's best to try and _not overwrite any existing objects_ unless having too many is slowing your computer down. By keeping them all, you retain a trail of everything you've done, and can go back to old objects later on.
+If you are interested in all but one or two variables, it's easier to specify what you _don't_ want rather than what you _do_ want. Here, we are not interested in the legislation used for the stop and search. Notice that by assigning this new `select()` function to an object `stops_subset` we are overwriting the original. It doesn't matter here, but it's worth remembering. Generally speaking, it's best to try and _not overwrite any existing objects_ unless having too many is slowing your computer down. By keeping them all, you retain a trail of everything you've done, and can go back to old objects later on.
 
-<div style="background: ghostwhite; 
-            font-size: 16px; 
-            padding: 10px; 
-            border: 1px solid lightgray; 
-            margin: 10px;">
-            
-### Exercise
-
-1. Let's say we are interested in every variable **with the exception** of `legislation`. In other words, we just want to drop this column from our dataset. How can we do this? There are multiple ways to do this using `select()`, but some are more concise than others. What's the shortest bit of code you can think of?
-
-</div>
+```{r}
+stops_subset <- select(stops, -legislation)
+```
 
 ### Arrange
 
@@ -322,6 +296,8 @@ stops_ordered <- arrange(stops, day)
 ```
 
 Or to order in descending order (note that we are overwriting the existing object again):
+
+## FYdK also here we could ask people to find out how to arrange it in descending order and then discuss the solution
 
 ```{r}
 stops_ordered <- arrange(stops, desc(day))
@@ -339,6 +315,7 @@ stops_first10 <- slice(stops, 1:10)
 
 Often, data has variables with excessively long names, or names which are not clear. The data here is not that bad, but some might need changing. For example `clothing_rm` tells us whether clothing had to be removed as part of the stop and search, but this might not be clear to some people. The `rename()` function makes changing variable names fairly easy.
 
+## FYdK running the code below (316) does not rename the clothing column into clothing_rm.... that is what it's supposed to do right?
 ```{r}
 stops_renamed <- rename(stops, clothing_remove = clothing_rm)
 ```
@@ -352,6 +329,8 @@ In the first example, let's say we want to create an ID column for the `stops` d
 ```{r}
 stops_with_id <- mutate(stops, ID = 1:nrow(stops))
 ```
+
+## FYdK Can we also add sth here to reorder the column order in stops_with_id. I would like to have the ID column first and then the remaining columns
 
 ### Mutate + recode
 
@@ -389,6 +368,10 @@ As it stands, this isn't really more efficient. However, as soon as we start doi
 
 So, the following code takes the original `stops` data frame, subsets it by individuals who were arrested, selects a small number of important variables, renames a variable and drops observations with missing values, all in one chunk of code. The output of this is assigned to a new object called `stops_piped`. It is good practice to put each part of the pipe on a new line, so it's easier to read.
 
+## FYdK another excercise that could be included is giving the 
+
+## FYdK again the renaming did not work for me here
+
 ```{r}
 stops_piped <- stops %>%                    
   filter(outcome == "Arrest") %>% 
@@ -411,6 +394,7 @@ crimes <- get_crime_data(years = 2017, type = "core")
 
 We can practice some of our skills earlier to explore the data. You will notice that each row is an offence For each offence, we information like the type of offence, the city and the census block in which it occurred. For now, let's just subset the data to only include disorderly conduct offences.
 
+## FYdK Ask participants to do this (code row 397) themselves 
 ```{r}
 disorder <- crimes %>% 
    filter(offense_type == "disorderly conduct")
@@ -429,6 +413,16 @@ city_counts # print the data frame to the Console
 ```
 
 You will notice that `summarise()` create a new data frame at whatever level we have specified in `group_by()`. This is subtly (but importantly) different from `mutate()` which adds a new variable to your existing data frame. Sometimes, using `mutate()` after `group_by()` does actually make sense, but what do you think would happen? Try running the above code using `mutate()` and observe what happens to the output. Remember that you might want to create a new data frame object to compare the two.
+
+## FYdK something like this you mean?: 
+city_counts # print the data frame to the Console
+> city_counts_mutate <- disorder %>% 
++     group_by(city_name) %>% 
++     mutate(counts = n()) 
+> 
+> city_counts_mutate # print the data frame to the Console
+
+## FYdK I don't get this part
 
 One of the powerful things about `group_by()` is that you can input multiple groups. Say we were interested in offence counts in each city, but also by the census blocks nested within each city. Then we could try something like this:
 
@@ -455,10 +449,12 @@ You will notice that each row is an incident, and for each incident we have info
 # Make a descriptive table of dispatch times by priority level.
 detroit_df %>% 
   group_by(priority) %>% 
-  summarise(mean_resonse    = mean(totalresponsetime  , na.rm = TRUE),
-            median_response = median(totalresponsetime, na.rm = TRUE),
-            sd_response     = sd(totalresponsetime    , na.rm = TRUE))
+  summarise(mean_travel   = mean(dispatchtime  , na.rm = TRUE),
+            median_travel = median(dispatchtime, na.rm = TRUE),
+            sd_travel     = sd(dispatchtime    , na.rm = TRUE))
 ```
+
+
 
 ## Conditions
 
@@ -475,6 +471,7 @@ if (x > 5) {
 
 Lucky for us, `tidyverse` makes it a lot easier to write such statements in conjunction with the pipe `%>%` and other verbs like `mutate()`. But the logic is the same. In the below example, we use the disorder data to create a new variable which simply tells us whether the offence took place in a residence or not. Note that, we nest `if_else()` in `mutate()`.
 
+
 ```{r}
 disorder <- disorder %>% 
   mutate(residential = if_else(condition = location_category == "residence",
@@ -487,6 +484,9 @@ We could then, for example, easily check frequency counts. You will notice that 
 ```{r}
 count(disorder, residential)
 ```
+
+
+
 
 ## Useful resources
 

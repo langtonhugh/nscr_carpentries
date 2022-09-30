@@ -373,15 +373,24 @@ RStudio</a></li>
 <li><a href="#starting-a-project">Starting a project</a></li>
 <li><a href="#objects-and-functions">Objects and functions</a></li>
 <li><a href="#types-and-classes">Types and classes</a></li>
+<li><a href="#exercise">Exercise</a></li>
 <li><a href="#installing-packages">Installing packages</a></li>
 <li><a href="#loading-packages">Loading packages</a></li>
 </ul></li>
-<li><a href="#importing-data">Importing data</a></li>
-<li><a href="#explore">Explore</a></li>
+<li><a href="#importing-data">Importing data</a>
+<ul>
+<li><a href="#exercise-1">Exercise</a></li>
+</ul></li>
+<li><a href="#explore">Explore</a>
+<ul>
+<li><a href="#exercise-2">Exercise</a></li>
+</ul></li>
 <li><a href="#transform">Transform</a>
 <ul>
 <li><a href="#filter">Filter</a></li>
+<li><a href="#exercise-3">Exercise</a></li>
 <li><a href="#select">Select</a></li>
+<li><a href="#exercise-4">Exercise</a></li>
 <li><a href="#arrange">Arrange</a></li>
 <li><a href="#slice">Slice</a></li>
 <li><a href="#rename">Rename</a></li>
@@ -422,7 +431,7 @@ these basics nailed early on will drastically improve the efficiency of
 many research tasks through automation, and open up a variety of new
 tools that are not available in more ‘traditional’ software like Excel.
 Perhaps even more importantly, it will also make your research
-transparent and reproducible (both for yourself, and others).W</p>
+transparent and reproducible (both for yourself, and others).</p>
 <p>Although R is available as a stand-alone piece of software, it is
 most commonly used through a user-friendly interface <em>RStudio</em>.
 We recommend that you first <a href="https://cran.r-project.org/bin/windows/base/">download R</a> and
@@ -574,9 +583,9 @@ about object types</a> to understand them more.</p>
 can think of a data frame as a list of vectors (i.e. columns, variables)
 of equal length (i.e. same number of rows). For instance, we can create
 a new data frame in a similar manner to how we created vectors above,
-but pre-specify we want to stick these together to create a data frame.
-This data frame has three variables (vectors, columns) of the same
-length (3 rows).</p>
+but pre-specify that we want to stick these together to create a data
+frame. This data frame has three variables (vectors, columns) of the
+same length (3 rows).</p>
 <pre class="r"><code>example_df &lt;- data.frame(var1 = c(&quot;id1&quot;, &quot;id2&quot;, &quot;id3&quot;),
                          var2 = c(1200, 5444, 8333),
                          var3 = c(&quot;Amsterdam&quot;, &quot;Groningen&quot;, &quot;Delft&quot;))
@@ -585,14 +594,35 @@ example_df</code></pre>
 ## 1  id1 1200 Amsterdam
 ## 2  id2 5444 Groningen
 ## 3  id3 8333     Delft</code></pre>
-<p>We don’t dwell too much on this here, but for now, it’s important to
-be aware that the type of vector you are dealing with will dictate what
-you can do with it. It’s the reason why we can calculate the mean of
-<code>my_numbers</code> or <code>var2</code> but not <code>city</code>
-or <code>var3</code>, for instance. Whilst this might seem obvious, it’s
-worthwhile being aware of these different types and classes. You can
-complete the exercises today without looking at the reading links above,
-but we recommend you return to it later on.</p>
+<p>You can ‘access’ the vectors within this dataframe using the
+<code>$</code> symbol. For example, to print out the contents of
+<code>var3</code> we can just run <code>example_df$var3</code>. We don’t
+dwell too much on this here, but for now, it’s important to be aware
+that the type of vector (i.e., column) you are dealing with will dictate
+what you can do with it. We take a look at this briefly in the exercise
+below. Whilst some of this might seem obvious, it’s worthwhile being
+aware of these different types and classes. You can complete the
+workshop without looking at the links above, but we recommend you return
+to it later on!</p>
+</div>
+<div id="exercise" class="section level3" style="background: ghostwhite; 
+            font-size: 16px; 
+            padding: 10px; 
+            border: 1px solid lightgray; 
+            margin: 10px;">
+<h3>Exercise</h3>
+<ol style="list-style-type: decimal">
+<li>What class is the <code>my_numbers</code> vector? Don’t guess: check
+it using code.</li>
+<li>Gather some data! How tall are you and your study neighbours (in
+centimetres)? Get as much as data as possible, and create a new vector
+will everyone’s heights.</li>
+<li>Calculate the mean and standard deviation of this vector.</li>
+<li>Using the <code>$</code> symbol, calculate the mean of
+<code>var2</code> in the <code>example_df</code> data frame above.</li>
+<li>Calculate the mean of the <code>var3</code> variable. What happens
+and why?</li>
+</ol>
 </div>
 <div id="installing-packages" class="section level3">
 <h3>Installing packages</h3>
@@ -672,38 +702,73 @@ directory, which keeps everything self-contained.</p>
 <p>It’s always a good idea to store an unaltered copy of any data on
 your computer, just in case the original version is later removed from
 the website you downloaded it from.</p>
-<p>Once you’ve downloaded the file, load it in the same way using
-<code>read_csv()</code> but this time, we load it from wherever it was
-saved. Note again that this example demonstrates one benefit of using
+<div id="exercise-1" class="section level3" style="background: ghostwhite; 
+            font-size: 16px; 
+            padding: 10px; 
+            border: 1px solid lightgray; 
+            margin: 10px;">
+<h3>Exercise</h3>
+<ol style="list-style-type: decimal">
+<li>Browse to your <code>data</code> folder in order to check you have
+downloaded it properly. Does the logic of the folder structure, and
+relative file path from the R project, make sense?</li>
+<li>Import the <strong>downloaded data</strong> (i.e., the file now
+stored on your computer) into your R environment. Clue: you can still
+use <code>read_csv()</code> but instead of the URL, you will need to
+refer to the file location in your computer.</li>
+</ol>
+</div>
+<p>Note again that this example demonstrates one benefit of using
 projects: we do not have to specify the whole working directory path
 (e.g., <code>C:/users/joedart/myproject ...</code>) because everything
 starts from the project folder by default.</p>
-<pre class="r"><code>stops &lt;- read_csv(file = &quot;data/stops_data.csv&quot;)</code></pre>
 </div>
 <div id="explore" class="section level2">
 <h2>Explore</h2>
 <p>Once you’ve loaded data into R (whichever way you’ve done it above),
-there’s a few useful functions you can use to explore it a bit. Try each
-of these one at time and review the outcome. You’ll notice that we’ve
-added comments after each line of code below as a brief explanation.
+there’s a few useful functions you can use to explore the data itself.
+We’ve given you a few examples in the exercise below. You’ll notice that
+for the first function, we’ve added a comment as a brief explanation.
 Anything you write after a <code>#</code> is treated as a comment and is
 ignored by R when running chunks of code. It’s useful to add comments as
 you go when writing code, explaining what you are doing and why. You
 will thank yourself for doing this when returning to code you wrote
 months earlier.</p>
 <pre class="r"><code>head(stops)         # Print the top 6 rows (i.e. observations) 
-tail(stops)         # Print the bottom 6 rows
-View(stops)         # View the data in a new window
-sum(is.na(stops))   # Count missings in the data frame
-nrow(stops)         # Number of rows
-ncol(stops)         # Number of columns
-summary(stops)      # Basic descriptives of each variable
-glimpse(stops)      # Summary of each variable (e.g., classes, values)</code></pre>
-<p>We’ll be making use of the <code>$</code> sign to generate
+View(stops)         
+sum(is.na(stops))   
+nrow(stops)         
+summary(stops)      
+glimpse(stops)      </code></pre>
+<div id="exercise-2" class="section level3" style="background: ghostwhite; 
+            font-size: 16px; 
+            padding: 10px; 
+            border: 1px solid lightgray; 
+            margin: 10px;">
+<h3>Exercise</h3>
+<ol style="list-style-type: decimal">
+<li>Run each of the above exploratory functions. What do each of them
+do? Write a comment in your own script to describe what each line of
+code does.</li>
+<li>You have seen that <code>head()</code> prints the top six rows of
+your data frame. What function can we use to print the
+<strong>bottom</strong> six rows? Remember: Google is your friend.</li>
+<li>How can you calculate the number of <strong>columns</strong> in the
+<code>stops</code> data frame?</li>
+<li>How many missing values are there in the
+<code>clothing_rm</code>?</li>
+<li>Create a vector which simply contains the column
+<strong>names</strong> in <code>stops</code>. We haven’t told you the
+function for this, but you might be able to guess. Failing that,
+Google!</li>
+</ol>
+</div>
+<p>As we saw earlier, and as you might have worked out in the exercise
+above, we can make use of the <code>$</code> sign to generate
 descriptives about specific vectors (variables) within a data frame. To
 refer to a specific variable, you need to state the data frame object
 and then the variable name using this <code>$</code> symbol. So, to
-count the number of missing for a specific variable <code>age</code> in
+count the number of missings for a specific variable <code>age</code> in
 <code>stops</code> you would run:</p>
 <pre class="r"><code>sum(is.na(stops$age)) # There are 136 missings in the age variable</code></pre>
 <p>Or to print a basic frequency table:</p>
@@ -754,9 +819,20 @@ was arrested. We can filter the <code>outcome</code> variable by
 argument of <code>filter()</code> is the data frame, and the second is
 the condition. In this example we can do:</p>
 <pre class="r"><code>stop_arrests &lt;- filter(stops, outcome == &quot;Arrest&quot;)</code></pre>
-<p>Take a look at this new object using the <code>View</code>
-function.</p>
-<pre class="r"><code>View(stop_arrests)</code></pre>
+</div>
+<div id="exercise-3" class="section level3" style="background: ghostwhite; 
+            font-size: 16px; 
+            padding: 10px; 
+            border: 1px solid lightgray; 
+            margin: 10px;">
+<h3>Exercise</h3>
+<ol style="list-style-type: decimal">
+<li>Check that the above filter worked manually by using
+<code>View(stop_arrests)</code>.</li>
+<li>Check that the above filter worked computationally. There are few
+ways you can do this, for example, printing out unique values of
+<code>outcome</code>, or running a frequency count.</li>
+</ol>
 </div>
 <div id="select" class="section level3">
 <h3>Select</h3>
@@ -769,15 +845,28 @@ variables.</p>
 <pre class="r"><code>stops_subset &lt;- select(stops, gender, age, ethnic, outcome)</code></pre>
 <p>If you are interested in all but one or two variables, it’s easier to
 specify what you <em>don’t</em> want rather than what you <em>do</em>
-want. Here, we are not interested in the legislation used for the stop
-and search. Notice that by assigning this new <code>select()</code>
-function to an object <code>stops_subset</code> we are overwriting the
-original. It doesn’t matter here, but it’s worth remembering. Generally
-speaking, it’s best to try and <em>not overwrite any existing
-objects</em> unless having too many is slowing your computer down. By
-keeping them all, you retain a trail of everything you’ve done, and can
-go back to old objects later on.</p>
-<pre class="r"><code>stops_subset &lt;- select(stops, -legislation)</code></pre>
+want. Notice that by assigning this new <code>select()</code> function
+to an object <code>stops_subset</code> we are overwriting the original.
+It doesn’t matter here, but it’s worth remembering. Generally speaking,
+it’s best to try and <em>not overwrite any existing objects</em> unless
+having too many is slowing your computer down. By keeping them all, you
+retain a trail of everything you’ve done, and can go back to old objects
+later on.</p>
+</div>
+<div id="exercise-4" class="section level3" style="background: ghostwhite; 
+            font-size: 16px; 
+            padding: 10px; 
+            border: 1px solid lightgray; 
+            margin: 10px;">
+<h3>Exercise</h3>
+<ol style="list-style-type: decimal">
+<li>Let’s say we are interested in every variable <strong>with the
+exception</strong> of <code>legislation</code>. In other words, we just
+want to drop this column from our dataset. How can we do this? There are
+multiple ways to do this using <code>select()</code>, but some are more
+concise than others. What’s the shortest bit of code you can think
+of?</li>
+</ol>
 </div>
 <div id="arrange" class="section level3">
 <h3>Arrange</h3>
@@ -974,10 +1063,9 @@ each city, but also by the census blocks nested within each city. Then
 we could try something like this:</p>
 <pre class="r"><code>city_block_counts &lt;- disorder %&gt;% 
   group_by(city_name, census_block) %&gt;% 
-  summarise(counts = n()) </code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;city_name&#39;. You can override using the
-## `.groups` argument.</code></pre>
-<pre class="r"><code>city_block_counts # print the data frame to the Console</code></pre>
+  summarise(counts = n()) 
+
+city_block_counts # print the data frame to the Console</code></pre>
 <pre><code>## # A tibble: 8,864 x 3
 ## # Groups:   city_name [16]
 ##    city_name census_block    counts
@@ -1004,15 +1092,6 @@ the structure of the data using some of the functions we learnt earlier,
 such as <code>glimpse()</code> and <code>View()</code>.</p>
 <pre class="r"><code># Load data.
 detroit_df &lt;- read_csv(&quot;https://github.com/langtonhugh/nscr_graphics/raw/main/data/detroit_calls.csv&quot;)</code></pre>
-<pre><code>## Rows: 87504 Columns: 13
-## -- Column specification --------------------------------------------------------
-## Delimiter: &quot;,&quot;
-## chr   (1): calldescription
-## dbl  (11): incident_id, zip_code, X, Y, priority, intaketime, dispatchtime, ...
-## dttm  (1): call_timestamp
-## 
-## i Use `spec()` to retrieve the full column specification for this data.
-## i Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 <p>You will notice that each row is an incident, and for each incident
 we have information, including the call classification, priority level,
 and the time spent at different stages of the response, amongst other

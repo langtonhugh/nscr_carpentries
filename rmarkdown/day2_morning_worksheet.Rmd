@@ -121,7 +121,7 @@ city_counts_2016_shuffle
 city_counts_2017
 ```
 
-Despite the different row ordering, the common id of `city_name` means that we can join the two datasets the city name. You might notice from the above graphic that it doesn't even matter which join we use here, because each dataframe is equally complete. By way of demonstration, we use `full_join()`. 
+Despite the different row ordering, the common id of `city_name` means that we can join the two datasets by the city name. You might notice from the above graphic that it doesn't even matter which join we use here, because each dataframe is equally complete. By way of demonstration, we use `full_join()`. 
 
 ```{r}
 city_counts_joined <- full_join(city_counts_2016_shuffle, city_counts_2017, by = "city_name")

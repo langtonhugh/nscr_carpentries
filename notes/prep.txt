@@ -1,0 +1,3 @@
+- give people time to download materials beforehand
+- creating R projects
+- exercises
