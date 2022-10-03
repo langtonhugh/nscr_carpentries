@@ -80,9 +80,11 @@ Source: [R for Data Science](https://r4ds.had.co.nz/)
 
 <center>
 
-![](img/learning_curve.png){width="70%"}
+![](img/learning_curve.png){width="65%"}
 
 </center>
+
+Source: unknown!
 
 ## Workshop ethos
 

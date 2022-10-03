@@ -8,7 +8,7 @@ output:
     number_sections: true
     theme: united
 editor_options: 
-  chunk_output_type: inline
+  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}
@@ -516,16 +516,15 @@ One of the powerful things about `group_by()` is that you can input multiple gro
 city_block_counts <- disorder %>% 
   group_by(city_name, census_block) %>% 
   summarise(counts = n()) 
-
-city_block_counts # print the data frame to the Console
 ```
+
+Take a look at the `city_block_counts` object using `View()` to examine what has happened.
 
 So far, we have been using `n()` to count the number of rows in each unique group. But, there are plenty of other things you can do. For instance, you can also calculate the mean or standard deviations of groups in exactly the same way, but instead of `n()` you would state something like `mean(variable_name)`. 
 
 To demonstrate this quickly, we load in calls for service data from Detroit, United States, during 2019. First, take a moment to understand the structure of the data using some of the functions we learnt earlier, such as `glimpse()` and `View()`.
 
 ```{r}
-# Load data.
 detroit_df <- read_csv("https://github.com/langtonhugh/nscr_graphics/raw/main/data/detroit_calls.csv")
 ```
 
@@ -577,6 +576,19 @@ We could then, for example, easily check frequency counts. You will notice that 
 count(disorder, residential)
 ```
 
+<div style="background: ghostwhite; 
+            font-size: 16px; 
+            padding: 10px; 
+            border: 1px solid lightgray; 
+            margin: 10px;">
+
+## Exercise
+
+1. Let's say we are interested in disorder incidents which occurred in a public building. We define this as 'education', 'government' or 'healthcare' in the `location_category` variable.  Use `if_else()` to create a new variable which states whether the disorder incident occurred in one of these locations (or not). Note that this will involve **more than one condition**.
+2. Try the same thing above but using `recode()`. Which one do you prefer?
+
+</div>
+
 # Useful resources
 
 1. **R for Data Science** This [free book](https://r4ds.had.co.nz/) gives you a comprehensive introduction to the tidyverse. The material in that book will allow you to do the vast majority of fundamental data tasks in R, including everything we've done in this tutorial. It is available quite cheaply as a paperback too.  
@@ -585,6 +597,6 @@ count(disorder, residential)
 
 # Acknowledgements
 
-This material is based on both the materials and experience of teaching with colleagues from the [Space Place and Crime working group](https://github.com/langtonhugh/ESC2019), and the [Methods@Manchester summer school](https://rcatlord.github.io/GSinR/).
+This material is based on both the materials and experience of teaching with colleagues from the [Space Place and Crime working group](https://github.com/langtonhugh/ESC2019) and the [Methods@Manchester summer school](https://rcatlord.github.io/GSinR/).
 
 
