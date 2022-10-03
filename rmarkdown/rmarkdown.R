@@ -17,7 +17,3 @@ rmarkdown::render(input       = "rmarkdown/day2_morning_worksheet.Rmd",
 rmarkdown::render(input       = "rmarkdown/day2_afternoon_worksheet.Rmd",
                   output_dir  = "worksheets",
                   output_file = "day2_afternoon_worksheet.html")
-
-
-
-
