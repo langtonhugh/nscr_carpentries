@@ -4,9 +4,6 @@ author: "12 October 2022 (morning)"
 output:
   html_document:
     toc: true
-    toc_depth: 1
-    number_sections: true
-    theme: united
 editor_options: 
   chunk_output_type: console
 ---
@@ -16,19 +13,21 @@ knitr::opts_chunk$set(echo = TRUE)
 library(crimedata);library(dplyr);library(tidyr)
 ```
 
-# Preamble
+## Preamble
 
 This page contains material for _NSCR Carpentries_, a two-day workshop hosted by the [NSCR](https://nscr.nl/) with support from [Data and Software Carpentries](https://carpentries.org/) on 5 and 12 October, 2022.
 
-# Background
+## Background
 
 Last week, we covered various different **transform** functions such as `filter()`, `mutate()` and `group_by()`. Most or all of the functions we used were in `dplyr` - a popular and powerful package within the `tidyverse`. This morning, we extend that a little by covering _joining_ (or 'merging'), which is useful when we want to 'join' or 'stick' two (or more) datasets together. After that, we cover **tidy** functions within the aptly named `tidyr` package -- again, all within the `tidyverse`. This includes the long-wide and wide-long transformations. In the afternoon we cover data visualization. As you will have realised, we are focusing on the `tiyverse` set of packages, so make you sure you have it installed and loaded in your script for the day!
 
-# Joining
+## FYdK Here I would already load the crimes data and ask participants to use soem of last weeks functions or maybe start with half an hour of group work so that we are sure people remember last weeks material
+
+## Joining
 
 It is likely that at some point you will need to join two datasets together. For example, if you wanted to examine the relationship between police-recorded crime and neighbourhood deprivation, you would probably need to collate data from two sources: the police, and the census bureau, and then join the two datasets together by some common variable, such as a neighbourhood name or id code. Here, we cover two ways of joining datasets together. The first is **binding** which simply 'sticks' to datasets together. The second is **joining** which performs a merge based on one or more variables which are common between the datasets.
 
-## Binding
+### Binding
 
 One of the crudest (but often perfectly acceptable) ways of sticking dataframes together is 'binding'. You can either bind top-to-bottom using `bind_rows()` or side-by-side using `bind_cols()`. This is demonstrated visually below. Note that when binding, there is no requirement for the datasets to have common identifier variables: you really are just sticking them together. This is easy but rather risky, as we will see.
 
@@ -42,9 +41,9 @@ One of the crudest (but often perfectly acceptable) ways of sticking dataframes 
 
 <br>
 
-### Row bind
+#### Row bind
 
-Let's first demonstrate `bind_rows()`. We begin by re-downloading some of the US crime data that we used yesterday from the `crimedata` package. As before, ensure that the package is installed and loaded. This time, we download data for 2016 _and_ 2017^[You can actually specify more than one year within the `get_crime_data()` function. This is just a demonstration.]. To speed things up, we download only a sample of the whole data each time.
+Let's first demonstrate `bind_rows()`. We begin by re-downloading some of the US crime data that we used yesterday ## FYdK last week from the `crimedata` package. As before, ensure that the package is installed and loaded. This time, we download data for 2016 _and_ 2017^[You can actually specify more than one year within the `get_crime_data()` function. This is just a demonstration.]. To speed things up, we download only a sample of the whole data each time.
 
 ```{r, warning=F, message=F, results=F}
 crimes_2016 <- get_crime_data(years = 2016, type = "sample")
@@ -57,6 +56,15 @@ But what if we wanted to compare the two years? This would be most straightforwa
 crimes_binded <- bind_rows(crimes_2016, crimes_2017, .id = "year")
 ```
 
+## FYdK Could we ask people here to use sth like the code below to change the year indicator into xthe original years. Only think I am not sure how to check in an easy way is whether 1 is indeed 2016 and 2 is indeed 2017. Any idea how we could check this nicely?
+
+```{r}
+crimes_binded_years <- crimes_binded %>% 
+  mutate(year = if_else(condition = year == 1,
+                               true  = 2016,
+                               false = 2017))
+```
+
 Now we can easily use things like `group_by()` to compare the two years. If you want the real counts, rather than the samples, you can download the "core" data type within `get_crime_data()`.
 
 ```{r, message=F, warning=F}
@@ -67,9 +75,13 @@ yearly_counts <- crimes_binded %>%
 
 Note that **this only works because the two dataframes have identical columns**. So, be sure to check these things before conducting a row bind, otherwise you might get an unexpected result.
 
-### Column bind
+## FYdK here I think we should show people how you can check whether things are the same something like
+colnames(crimes_2016) == colnames(crimes_2017)
+
+#### Column bind
 
 Another way of finding dataframes is `bind_cols()`. This sticks dataframes together side-by-side. For that reason, you have to be **super careful** that the ordering of rows is appropriate before conducting a column bind. Let's create two dataframes of city-level counts for each year. 
+
 
 ```{r, message=F, warning=F}
 city_counts_2016 <- crimes_2016 %>% 
@@ -100,9 +112,11 @@ city_counts_2016_2017_shuffle <- bind_cols(city_counts_2016_shuffle, city_counts
 
 Now take a look at the result. It's wrong, right? If we had done this blindly, without checks, we could have made a pretty big mistake. So, while `bind_cols()` can be useful, always ensure that the ordering is correct before conducting such a bind, and be sure to check everything afterwards.
 
-## Joining
+### Joining
 
-Probably the most powerful way of merging dataframes together is by using a **join** function. These functions will match rows based on one or more common id (or 'key') variables. There are a number of different joins available within the `tidyverse`. While each are fundamentally the same, each one will treat non-matches differently. The four options available are `left_join()`, `right_join()`, `inner_join()` and `full_join()`. These are best summarised visually.
+Probably the most powerful way of merging dataframes together is by using a **join** function. These functions will match rows based on one or more common id (or 'key') variables. There are a number of different joins available within the `tidyverse`. While each are fundamentally the same, each one will treat non-matches differently. The four options available are `left_join()`, `right_join()`, `inner_join()` and `full_join()`. These are best summarised visually. 
+
+## FYdK I don't have acces to internet while reviewing the material, but I always find it easier to understand the join functions using a differetn type of visualization, namely Venn diagrams. It's a matter of taste probably.
 
 <br>
 
@@ -124,7 +138,7 @@ city_counts_2016_shuffle
 city_counts_2017
 ```
 
-Despite the different row ordering, the common id of `city_name` means that we can join the two datasets by the city name. You might notice from the above graphic that it doesn't even matter which join we use here, because each dataframe is equally complete. By way of demonstration, we use `full_join()`. 
+Despite the different row ordering, the common id of `city_name` means that we can join the two datasets the city name. You might notice from the above graphic that it doesn't even matter which join we use here, because each dataframe is equally complete. By way of demonstration, we use `full_join()`. 
 
 ```{r}
 city_counts_joined <- full_join(city_counts_2016_shuffle, city_counts_2017, by = "city_name")
@@ -149,7 +163,7 @@ city_counts_joined_subset
 
 What do you think would happen if we re-ran the above, but with `left_join()`? Try it out now, along with `right_join()` and `inner_join()`. The differences might be subtle, but important!
 
-# Tidy
+## Tidy
 
 So far, we have been going on about the `tidyverse` without really talking about tidy data. There is no better resource to explain tidy data than [this one](http://garrettgman.github.io/tidying/). We are not even going to try and beat that. So, definitely have a read at some point! But for now, we can summarise tidy data by borrowing their definition: a tidy dataset is one in which _each variable is placed in its own column, each observation in its own row, and each value in its own cell._ There is a graphical representation of this below. 
 
@@ -165,21 +179,27 @@ So far, we have been going on about the `tidyverse` without really talking about
 
 To some of you, this might be intuitive: it might seem obvious that data is in a tidy format, but **you would be surprised what hell some people call a data frame**. In real life, colleagues, companies and governments will share spreadsheets which do not fit this definition of 'tidy', and we are left to wrangle away until it is tidy. Luckily, we have already learnt many of the skills needed to tidy data, but one important one remains: long to wide pivots (and vice-versa).
 
-## Preperation
+### Preperation
 
 To demonstrate these pivots, we will make use of some open data from the London Fire Service contains information about calls for service involving animals.  To prepare for this, we need to run an R script which will download and prepare the data for us. This is partly practical, but partly a nice demonstration of the `source()` function. With this function, we can run a pre-existing R script without even opening it. Assuming you have downloaded all the material for this course, and that you are working in the R project file, all you need to do is run the following in a new R script. 
+
+
 
 ```{r, eval = F}
 source(file = "scripts/tidy_prep.r")
 ```
 
+
+
+
 ```{r, echo = F, message=F, warning=F, results=F}
-setwd("C:/Users/langt/Documents/GitHub/nscr_carpentries") # temporary hack.
+setwd("C:/Users/FY125/Desktop/r_carpentries") # temporary hack.
 source(file = "scripts/tidy_prep.r")
 ```
 
+In doing so, a number of new objects will appear in your global environment. If you are interested, feel free to look at this R script (in the scripts folder) to see what we did to make this magic happen. For now, let's begin with wide to long pivots.
 
-## Wide to long
+### Wide to long
 
 First, let's print our first example data frame to the Console.
 
@@ -239,7 +259,7 @@ fire_wide2_df
 
 That's it! That's long to wide and back again.
 
-## Unite
+### Unite
 
 Another useful tidying function is `unite()`. Fortunately, it's a lot easier to get your head around compared to pivots. This function will simply pastes together the contents of columns. Let's demonstrate this using the raw fire service data. We have two variables `property_type` and `property_category` which describe where the incident took place. We can preview these variables by printing their unique values to the Console using `distinct()`.
 
@@ -262,8 +282,8 @@ fire_clean_df <- fire_clean_df %>%
 
 By default, `unite()` will remove the variables you have united. Take a look at the help documentation `?unite` to find out how you can turn this option off, and keep the original variables.
 
-## Separate
-
+### Separate
+## FYdK again a good place to let people try themselves , let's just give people the function and variables and ask them to try to separate both
 To do the opposite of `unite()` we can use `separate()`. To give a different example, we will separate the variable `fin_year` which tells us the financial year of the incident (April to April).
 
 ```{r}
@@ -284,7 +304,3 @@ Check that it worked.
 ```{r}
 distinct(fire_clean_df, year_begin)
 ```
-
-# Acknowledgements
-
-This material is based on both the materials and experience of teaching with colleagues from the [Space Place and Crime working group](https://github.com/langtonhugh/ESC2019) and the [Methods@Manchester summer school](https://rcatlord.github.io/GSinR/).

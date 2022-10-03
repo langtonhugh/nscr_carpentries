@@ -184,10 +184,7 @@ download.file(url = "https://github.com/langtonhugh/ESC2019_materials/raw/master
 
 It's always a good idea to store an unaltered copy of any data on your computer, just in case the original version is later removed from the website you downloaded it from.
 
-
-
-
-Once you've downloaded the file, load it in the same way using `read_csv()` but this time, we load it from wherever it was saved. Note again that this example demonstrates one benefit of using projects: we do not have to specify the whole working directory path (e.g.,         `C:/users/joe_dart/myproject ...`) because everything starts from the project folder by default.
+Once you've downloaded the file, load it in the same way using `read_csv()` but this time, we load it from wherever it was saved. Note again that this example demonstrates one benefit of using projects: we do not have to specify the whole working directory path (e.g.,         `C:/users/joedart/myproject ...`) because everything starts from the project folder by default.
 
 ## FYdK here I think it helps to ask people to browse to the folder and find the data. Would be great to make it a bit interactive to keep people awake and motivated. Maybe ask someone to tell the others where to find the downloaded file, before you explain the solution.
 
@@ -217,7 +214,7 @@ summary(stops)      # Basic descriptives of each variable
 glimpse(stops)      # Summary of each variable (e.g., classes, values)
 ```
 
-As we saw earlier, and as you might have worked out in the exercise above, we can make use of the `$` sign to generate descriptives about specific vectors (variables) within a data frame. To refer to a specific variable, you need to state the data frame object and then the variable name using this `$` symbol. So, to count the number of missings for a specific variable `age` in `stops` you would run:
+We'll be making use of the `$` sign to generate descriptives about specific vectors (variables) within a data frame. To refer to a specific variable, you need to state the data frame object and then the variable name using this `$` symbol. So, to count the number of missing for a specific variable `age` in `stops` you would run:
 
 ```{r, eval = F}
 sum(is.na(stops$age)) # There are 136 missings in the age variable
@@ -231,7 +228,7 @@ Or to print a basic frequency table:
 table(stops$age)
 ```
 
-As we need to use `$`, which can look quite messy, but it's definitely worth knowing. For instance, we could replicate the frequency count above using `count()` which is part of the `dplyr` package in the `tidyverse`.
+As weneed to use `$`, which can look quite messy, but it's definitely worth knowing. For instance, we could replicate the frequency count above using `count()` which is part of the `dplyr` package in the `tidyverse`.
 
 ## FYdK 
 
