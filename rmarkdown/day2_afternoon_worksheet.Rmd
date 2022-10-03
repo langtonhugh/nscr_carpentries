@@ -467,6 +467,18 @@ We're going to save `p1`. Note that we specify both the file location when namin
 ggsave(plot = p1, filename = "visuals/my_plot.png", width = 16, height = 12, units = "cm", dpi = 100)
 ```
 
+<div style="background: ghostwhite; 
+            font-size: 16px; 
+            padding: 0px; 
+            border: 1px solid lightgray; 
+            margin: 0px;">
+            
+# Mini-project!
+
+</div>
+
+
+
 # Resources
 
 - For an overview of data visualisation as a field (rather than R specifically), Andy Kirk has a fantastic [book](https://uk.sagepub.com/en-gb/eur/data-visualisation/book266150?utm_source=web&utm_medium=AKblog), and a [website](https://www.visualisingdata.com/resources/) with free resources and inspiring examples of data viz.
