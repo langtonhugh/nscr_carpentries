@@ -1,3 +1,7 @@
+# Notes:
+# Credit to Methods@Manchester summer school (Reka Solymosi).
+# https://rcatlord.github.io/GSinR/
+
 # Load packages.
 library(tidyverse)
 library(babynames) 
@@ -18,7 +22,3 @@ babynames %>%                                                 # state the data
 
 # Save the last plot.
 ggsave("visuals/baby_plot.png", height = 10, width = 16, unit = "cm", dpi = 300)
-
-# Notes:
-# Credit to Methods@Manchester summer school (Reka Solymosi).
-# https://rcatlord.github.io/GSinR/
