@@ -22,7 +22,9 @@ This page contains material for _NSCR Carpentries_, a two-day workshop hosted by
 
 # Background
 
-Last week, we covered various different **transform** functions such as `filter()`, `mutate()` and `group_by()`. Most or all of the functions we used were in `dplyr` - a popular and powerful package within the `tidyverse`. This morning, we extend that a little by covering _joining_ (or 'merging'), which is useful when we want to 'join' or 'stick' two (or more) datasets together. After that, we cover **tidy** functions within the aptly named `tidyr` package -- again, all within the `tidyverse`. This includes the long-wide and wide-long transformations. In the afternoon we cover data visualization. As you will have realised, we are focusing on the `tiyverse` set of packages, so make you sure you have it installed and loaded in your script for the day!
+Last week, we covered various different **transform** functions such as `filter()`, `mutate()` and `group_by()`. Most or all of the functions we used were in `dplyr` - a popular and powerful package within the `tidyverse`.
+
+This morning, we extend that a little by covering _joining_ (or 'merging'), which is useful when we want to 'join' or 'stick' two (or more) datasets together. After that, we cover **tidy** functions within the aptly named `tidyr` package -- again, all within the `tidyverse`. This includes the long-wide and wide-long transformations. In the afternoon we cover data visualization. As you will have realised, we are focusing on the `tiyverse` set of packages, so make you sure you have it installed and loaded in your script for the day!
 
 # Joining
 
@@ -51,21 +53,27 @@ crimes_2016 <- get_crime_data(years = 2016, type = "sample")
 crimes_2017 <- get_crime_data(years = 2017, type = "sample")
 ```
 
-But what if we wanted to compare the two years? This would be most straightforward within the same dataframe. Because the two dataframes have exactly the same columns, we can use `bind_rows()` to stick them together top-to-bottom. Note that we specify an id variable to distinguish the two original dataframes. We might even want to do this beforehand using `mutate()` (e.g., `mutate(year = "2017)`).
+But what if we wanted to compare the two years? This would be most straightforward within the same dataframe. Because the two dataframes have exactly the same columns, we can use `bind_rows()` to stick them together top-to-bottom. Note that we specify an id variable to distinguish the two original dataframes.
 
 ```{r}
 crimes_binded <- bind_rows(crimes_2016, crimes_2017, .id = "year")
 ```
 
-Now we can easily use things like `group_by()` to compare the two years. If you want the real counts, rather than the samples, you can download the "core" data type within `get_crime_data()`.
+<div style="background: ghostwhite; 
+            font-size: 16px; 
+            padding: 10px; 
+            border: 1px solid lightgray; 
+            margin: 10px;">
 
-```{r, message=F, warning=F}
-yearly_counts <- crimes_binded %>% 
-  group_by(year, city_name) %>% 
-  summarise(count = n())
-```
+## Exercise
 
-Note that **this only works because the two dataframes have identical columns**. So, be sure to check these things before conducting a row bind, otherwise you might get an unexpected result.
+1. The new `year` variable we created above is not very informative. Create a new variable in both `crimes_2016` and `crimes_2017` called `data_year` which states the year. Then, re-do the row bind above.
+2. Try altering the variable name in **one** of the datasets. For example, let's say we made a typo, and in one dataframe we called our new variable `data_years`. Then re-do the row bind. What happens and why?
+3. Once you've (successfully) stuck the dataframes together, use `group_by()` and then `summarise()` to calculate the crime counts by year and by city. Look back at last week's material for some clues on how to do this.
+      
+</div>
+
+You will see that the row bind **only works because the two dataframes have identical columns**. So, be sure to check these things before conducting a row bind, otherwise you might get an unexpected result.
 
 ### Column bind
 
@@ -98,7 +106,7 @@ city_counts_2016_shuffle <- city_counts_2016 %>%
 city_counts_2016_2017_shuffle <- bind_cols(city_counts_2016_shuffle, city_counts_2017) 
 ```
 
-Now take a look at the result. It's wrong, right? If we had done this blindly, without checks, we could have made a pretty big mistake. So, while `bind_cols()` can be useful, always ensure that the ordering is correct before conducting such a bind, and be sure to check everything afterwards.
+Now take a look at the result. Is it correct? If not, why not? While `bind_cols()` can be useful, always ensure that the ordering is correct before conducting such a bind, and be sure to check everything afterwards.
 
 ## Joining
 
@@ -132,12 +140,25 @@ city_counts_joined <- full_join(city_counts_2016_shuffle, city_counts_2017, by =
 city_counts_joined # print the joined output
 ```
 
-For completion, we have explicitly stated that we are joining by `city_name`. What happens if we don't do this? Remove that option and re-try the join. `tidyverse` really does make your life easier...
+
+<div style="background: ghostwhite; 
+            font-size: 16px; 
+            padding: 10px; 
+            border: 1px solid lightgray; 
+            margin: 10px;">
+
+## Exercise
+
+1. For completion, we have explicitly stated that we are joining by `city_name`. What happens if we don't do this? Remove that option and re-try the join.
+2. In one of the dataframes, change the `city_name` variable to something different (e.g., `city`). This forces you to practice `rename()` from last week, but is also recreates a more realistic scenario in which the common ID variables have different names.
+3. Now, re-do the join. You will see that R cannot guess which variables are your common IDs. So, you will need to state them manually within the join function. Do this! Remember that Google is your friend, or check the help page within R (`?full_join`).
+      
+</div>
 
 To explore the different joins more, let's introduce some differences. We create an incomplete 2017 dataframe by randomly sampling ten cities, and then re-trying the join. You will notice that this automatically identifies the missings, and retains them.
 
 ```{r}
-set.seed(1612)
+set.seed(1612) # This ensures that the sample is reproducible.
 
 city_counts_2017_subset <- city_counts_2017 %>% 
   sample_n(size = 10)
@@ -147,7 +168,17 @@ city_counts_joined_subset <-  full_join(city_counts_2016_shuffle, city_counts_20
 city_counts_joined_subset
 ```
 
-What do you think would happen if we re-ran the above, but with `left_join()`? Try it out now, along with `right_join()` and `inner_join()`. The differences might be subtle, but important!
+<div style="background: ghostwhite; 
+            font-size: 16px; 
+            padding: 10px; 
+            border: 1px solid lightgray; 
+            margin: 10px;">
+
+## Exercise
+
+1. What do you think would happen if we re-ran the above, but with `left_join()`? Try it out now, along with `right_join()` and `inner_join()`. The differences might be subtle, but important! 
+      
+</div>
 
 # Tidy
 
@@ -163,13 +194,14 @@ So far, we have been going on about the `tidyverse` without really talking about
 
 <br>
 
-To some of you, this might be intuitive: it might seem obvious that data is in a tidy format, but **you would be surprised what hell some people call a data frame**. In real life, colleagues, companies and governments will share spreadsheets which do not fit this definition of 'tidy', and we are left to wrangle away until it is tidy. Luckily, we have already learnt many of the skills needed to tidy data, but one important one remains: long to wide pivots (and vice-versa).
+To some of you, this might be intuitive: it might seem obvious that data is in a tidy format, but **you would be surprised what hell some people call a dataframe**. In real life, colleagues, companies and governments will share spreadsheets which do not fit this definition of 'tidy', and we are left to wrangle away until it is tidy. Luckily, we have already learnt many of the skills needed to tidy data, but one important one remains: long to wide pivots (and vice-versa).
 
 ## Preperation
 
 To demonstrate these pivots, we will make use of some open data from the London Fire Service contains information about calls for service involving animals.  To prepare for this, we need to run an R script which will download and prepare the data for us. This is partly practical, but partly a nice demonstration of the `source()` function. With this function, we can run a pre-existing R script without even opening it. Assuming you have downloaded all the material for this course, and that you are working in the R project file, all you need to do is run the following in a new R script. 
 
 ```{r, eval = F}
+# This will run the R script in the background, in order to prepare some nice data.
 source(file = "scripts/tidy_prep.r")
 ```
 
@@ -262,28 +294,17 @@ fire_clean_df <- fire_clean_df %>%
 
 By default, `unite()` will remove the variables you have united. Take a look at the help documentation `?unite` to find out how you can turn this option off, and keep the original variables.
 
-## Separate
+<div style="background: ghostwhite; 
+            font-size: 16px; 
+            padding: 10px; 
+            border: 1px solid lightgray; 
+            margin: 10px;">
 
-To do the opposite of `unite()` we can use `separate()`. To give a different example, we will separate the variable `fin_year` which tells us the financial year of the incident (April to April).
+## Exercise
 
-```{r}
-distinct(fire_clean_df, fin_year)
-```
-
-Let's say we wanted to identify the _year beginning_ and _year end_. We can separate this variable based on the forward slash.
-
-```{r}
-fire_clean_df <- fire_clean_df %>% 
-  separate(col = fin_year,
-           into = c("year_begin", "year_end"),
-           sep = "/")
-```
-
-Check that it worked.
-
-```{r}
-distinct(fire_clean_df, year_begin)
-```
+1. The opposite of `unite()` is `separate()`. Unsurprisingly, this function can be used to separate a variable into two or more other variables. Let's say we wanted to identify the _year beginning_ and _year end_ of each incident. Use `separate()` to split `fin_year` into two new variables called `year_begin` and `year_end`.
+      
+</div>
 
 # Acknowledgements
 
