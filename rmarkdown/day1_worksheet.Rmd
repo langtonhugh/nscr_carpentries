@@ -140,8 +140,6 @@ You can 'access' the vectors within this dataframe using the `$` symbol. For exa
 
 </div>
 
-
-
 ## Installing packages
 
 R comes with a huge amount of built-in functionality. You can load, manipulate, analyse and visualise data simply with the tools you have already upon download. In the above example, we used the function `mean()`. This is an example of a function which is available to use as standard in R. That said, the real power and versatility of R comes with additional _packages_ which you can install (for free) from within the software. There are thousands of R packages out there, but there is a specific group of packages which have been designed around a common philosophy, and can be used in conjunction with one another. Collectively these are referred to as the `tidyverse`. You can read more about the tidyverse in the (legitimately) free book [R for Data Science](https://r4ds.had.co.nz/), which covers the fundamentals of data science in R.

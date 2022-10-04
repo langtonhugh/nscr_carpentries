@@ -722,15 +722,15 @@ source(file = &quot;scripts/tidy_prep.r&quot;)</code></pre>
 <p>First, let’s print our first example data frame to the Console.</p>
 <pre class="r"><code>fire_wide1_df </code></pre>
 <pre><code>## # A tibble: 6 x 13
-##   animal_group_broad `2009` `2010` `2011` `2012` `2013` `2014` `2015` `2016` `2017` `2018` `2019`
-##   &lt;fct&gt;               &lt;int&gt;  &lt;int&gt;  &lt;int&gt;  &lt;int&gt;  &lt;int&gt;  &lt;int&gt;  &lt;int&gt;  &lt;int&gt;  &lt;int&gt;  &lt;int&gt;  &lt;int&gt;
-## 1 Bird                   89     99    120    112     85    110    106    120    124    126    141
-## 2 Cat                   262    294    309    302    312    295    262    296    257    304    267
-## 3 Dog                   132    122    103    100     93     90     88    107     81     91     75
-## 4 Fox                    16     17     26     14     25     22     21     29     33     33     32
-## 5 Horse                  19     15     22     28     16     12     12     12     10     12     15
-## 6 Other                  50     64     40     47     54     54     51     40     34     44     74
-## # ... with 1 more variable: 2020 &lt;int&gt;</code></pre>
+##   animal_group_broad `2009` `2010` `2011` `2012` `2013` `2014` `2015` `2016`
+##   &lt;fct&gt;               &lt;int&gt;  &lt;int&gt;  &lt;int&gt;  &lt;int&gt;  &lt;int&gt;  &lt;int&gt;  &lt;int&gt;  &lt;int&gt;
+## 1 Bird                   89     99    120    112     85    110    106    120
+## 2 Cat                   262    294    309    302    312    295    262    296
+## 3 Dog                   132    122    103    100     93     90     88    107
+## 4 Fox                    16     17     26     14     25     22     21     29
+## 5 Horse                  19     15     22     28     16     12     12     12
+## 6 Other                  50     64     40     47     54     54     51     40
+## # ... with 4 more variables: 2017 &lt;int&gt;, 2018 &lt;int&gt;, 2019 &lt;int&gt;, 2020 &lt;int&gt;</code></pre>
 <p>This dataframe contains information about the number of calls
 received by the London Fire Service between 2009 and 2018 involving
 particular animals. For example, there were 85 incidents in 2013
@@ -836,15 +836,15 @@ across columns, and the values for each has been taken from the existing
 <code>counts</code> variable.</p>
 <pre class="r"><code>fire_wide2_df</code></pre>
 <pre><code>## # A tibble: 6 x 7
-##   animal_group_broad Dwelling `Non Residential` `Other Residential` Outdoor `Outdoor Structure`
-##   &lt;fct&gt;                 &lt;dbl&gt;             &lt;dbl&gt;               &lt;dbl&gt;   &lt;dbl&gt;               &lt;dbl&gt;
-## 1 Bird                     40                18                   0      26                   5
-## 2 Cat                     171                20                   2      58                   4
-## 3 Dog                      44                10                   0      56                  13
-## 4 Fox                       5                 1                   0       6                   4
-## 5 Horse                     0                 1                   0      17                   0
-## 6 Other                    24                 4                   2      15                   3
-## # ... with 1 more variable: Road Vehicle &lt;dbl&gt;</code></pre>
+##   animal_group_broad Dwelling `Non Residential` `Other Residential` Outdoor
+##   &lt;fct&gt;                 &lt;dbl&gt;             &lt;dbl&gt;               &lt;dbl&gt;   &lt;dbl&gt;
+## 1 Bird                     40                18                   0      26
+## 2 Cat                     171                20                   2      58
+## 3 Dog                      44                10                   0      56
+## 4 Fox                       5                 1                   0       6
+## 5 Horse                     0                 1                   0      17
+## 6 Other                    24                 4                   2      15
+## # ... with 2 more variables: Outdoor Structure &lt;dbl&gt;, Road Vehicle &lt;dbl&gt;</code></pre>
 <p>That’s it! That’s long to wide and back again.</p>
 </div>
 <div id="unite" class="section level2" number="4.4">

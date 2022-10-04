@@ -94,21 +94,21 @@ Source: [R for Data Science](https://r4ds.had.co.nz/)
 - prepare data for analysis
 - visualise
 
-## Workshop contents
+<!-- ## Workshop contents -->
 
-### Day 1 (5 October)
+<!-- ### Day 1 (5 October) -->
 
-- The basics
-- Packages
-- Import 
-- Explore
-- Transform
+<!-- - The basics -->
+<!-- - Packages -->
+<!-- - Import  -->
+<!-- - Explore -->
+<!-- - Transform -->
 
-### Day 2 (12 October)
+<!-- ### Day 2 (12 October) -->
 
-- Tidy
-- Join
-- Visualise
+<!-- - Tidy -->
+<!-- - Join -->
+<!-- - Visualise -->
 
 ## Workshop ethos
 
@@ -157,6 +157,11 @@ OR
 https://github.com/langtonhugh/nscr_carpentries/archive/refs/heads/main.zip 
 
 </center>
+
+## Demo
+
+- Familiarisation with RStudio
+- Using a script
 
 ## Day 2: morning
 
