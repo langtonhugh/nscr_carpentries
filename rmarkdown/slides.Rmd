@@ -158,10 +158,12 @@ https://github.com/langtonhugh/nscr_carpentries/archive/refs/heads/main.zip
 
 </center>
 
-## Demo
+## The basics
 
 - Familiarisation with RStudio
+- R projects
 - Using a script
+- Packages
 
 ## Day 2: morning
 
