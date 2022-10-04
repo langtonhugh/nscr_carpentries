@@ -6,6 +6,12 @@
 library(tidyverse)
 library(babynames) 
 
+# Show data.
+babynames
+
+# Top six rows of data.
+head(babynames)
+
 # Wrangle data and make a plot.
 babynames %>%                                                 # state the data
   filter(name == "Alex") %>%                                  # filter by Alex names

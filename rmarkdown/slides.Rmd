@@ -21,6 +21,30 @@ knitr::opts_chunk$set(echo = FALSE)
 -   Alex Trinidad
 -   Franziska Yasrebi-de Kom
 
+
+## About you
+
+## Why learn R?
+
+- free
+- reproducibility
+  - yourself
+  - others
+- diverse
+- makes your life easier
+- community driven
+- [growing popularity](https://rcatlord.github.io/GSinR/modules/intro/slides/slides.html#8) 
+
+## Learning curve
+
+<center>
+
+![](img/learning_curve.png){width="65%"}
+
+</center>
+
+Source: unknown
+
 ## The workshop
 
 - Help participants transform from R novices to R users!
@@ -60,6 +84,16 @@ Source: [R for Data Science](https://r4ds.had.co.nz/)
 
 Source: [R for Data Science](https://r4ds.had.co.nz/)
 
+## What will you learn?
+
+- read and write basic R code
+- import data into RStudio
+- subset and filter your data
+- recode and create new variables
+- pivot data (long-wide)
+- prepare data for analysis
+- visualise
+
 ## Workshop contents
 
 ### Day 1 (5 October)
@@ -75,16 +109,6 @@ Source: [R for Data Science](https://r4ds.had.co.nz/)
 - Tidy
 - Join
 - Visualise
-
-## Disclaimer: learning curve
-
-<center>
-
-![](img/learning_curve.png){width="65%"}
-
-</center>
-
-Source: unknown!
 
 ## Workshop ethos
 
@@ -126,7 +150,11 @@ All slides and worksheets are available online:
 
 <center>
 
-<font color = "blue"> Link to the website/dropbox! </font>
+https://t.ly/6NM_ 
+
+OR
+
+https://github.com/langtonhugh/nscr_carpentries/archive/refs/heads/main.zip 
 
 </center>
 
