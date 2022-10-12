@@ -2,6 +2,8 @@
 # Credit to Methods@Manchester summer school (Reka Solymosi).
 # https://rcatlord.github.io/GSinR/
 
+# install.packages("babynames")
+
 # Load packages.
 library(tidyverse)
 library(babynames) 

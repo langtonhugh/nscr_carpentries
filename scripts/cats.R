@@ -1,7 +1,7 @@
 # You will need to first install the ggcats package directly from Github.
 # remotes::install_github("R-CoderDotCom/ggcats@main")
 
-# Load [ackages.
+# Load packages.
 library(ggcats)
 library(ggplot2)
 
